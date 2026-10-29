@@ -74,6 +74,8 @@
   --wcard-bg:linear-gradient(135deg,#2b2218 0%,#1a140e 48%,#3b2d13 100%);
   --wcard-sheen:radial-gradient(120% 90% at 100% 0%,rgba(213,166,68,.38) 0%,rgba(213,166,68,0) 55%);
   --wcard-line:rgba(213,166,68,.45);
+  /* 29/10/2026 : seconde carte, l'e-wallet restaurant, encre bordeaux. */
+  --wcard-resto-bg:linear-gradient(135deg,#3d1c22 0%,#24100f 48%,#4a2a1c 100%);
   --shadow-lift:0 2px 6px rgba(34,28,21,.06),0 18px 40px rgba(34,28,21,.14);
 
   /* Échelle typographique 28/22/17/15/13/11 */
@@ -1263,7 +1265,8 @@ body{
 .screen[data-path="/book/gf/pay"] .screen-inner,
 .screen[data-path="/book/lessons/pay"] .screen-inner,
 .screen[data-path="/wallet/buy"] .screen-inner,
-.screen[data-path="/wallet/buy/pay"] .screen-inner{
+.screen[data-path="/wallet/buy/pay"] .screen-inner,
+.screen[data-path="/wallet/topup"] .screen-inner{
   display:flex;
   flex-direction:column;
   min-height:100%;
@@ -2750,10 +2753,15 @@ body{
   color:var(--ink-2);
 }
 /* Jauge du carnet, e-wallet et avoir — repris du booking engine v3. */
-.pot-gauge{ padding:0 18px 14px; }
+.pot-gauge{ display:block; padding:0 18px 14px; }
+button.pot.is-tap{ display:block; width:100%; padding:0; font:inherit; color:inherit; text-align:left; cursor:pointer; -webkit-appearance:none; appearance:none; }
+button.pot.is-tap .pot-open{ display:flex; }
+button.pot.is-tap:active{ background:var(--canvas); }
+button.pot.is-tap .pot-nudge{ display:block; }
 .gauge{ display:flex; gap:4px; }
 .gauge i{ flex:1 1 0; height:6px; border-radius:var(--r-pill); background:var(--sand); }
 .gauge i.is-on{ background:var(--gold); }
+.gauge.is-dense{ gap:3px; }
 .pot-gauge-text{ display:block; margin-top:7px; font-size:var(--t-13); color:var(--ink-2); }
 .money{
   display:flex;
@@ -4207,10 +4215,10 @@ button.pot.is-v2:active{ background:var(--gold-soft); }
   font-variant-numeric:tabular-nums;
 }
 .ewallet-text{ font-size:var(--t-11); line-height:1.35; color:var(--ink-2); }
-.wgrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:10px; }
+/* 29/10/2026 : cartes de crédits en pleine largeur, l'une sous l'autre. */
+.wgrid{ display:grid; grid-template-columns:1fr; gap:10px; margin-top:10px; }
 .wgrid .pot + .pot{ margin-top:0; }
 .wgrid .pot-open{ padding:12px 12px 8px; gap:8px; }
-.wgrid .pot-mark{ display:none; }
 .wgrid .pot-value{ font-size:var(--t-22); }
 .wgrid .pot-gauge{ padding:0 12px 10px; }
 .wgrid .pot-actions{ grid-template-columns:1fr 1fr; gap:6px; padding:0 10px 12px; }
@@ -4218,7 +4226,6 @@ button.pot.is-v2:active{ background:var(--gold-soft); }
 .wgrid .pot-actions .btn{ min-height:44px; padding:0 4px; font-size:var(--t-11); letter-spacing:.06em; }
 .wgrid .pot-note{ display:none; }
 .wgrid .pot-nudge{ margin:0 12px 10px; font-size:var(--t-11); }
-.wgrid .pot-chevron{ display:none; }
 .wtop .pot-mark{ width:32px; height:32px; font-size:18px; }
 .wtop .pot-open{ padding:12px; }
 .wtop .pot-actions{ gap:6px; padding:0 10px 12px; }
@@ -4820,6 +4827,33 @@ button.irow{ cursor:pointer; }
 .wcard-note{ display:flex; gap:8px; margin:12px 4px 0; font-size:12.5px; color:var(--ink-3); line-height:1.5; }
 .wcard-note .ti{ flex:0 0 auto; font-size:16px; color:var(--gold-dark); }
 .screen[data-path="/wallet"] .wgrid{ margin-top:0; }
+/* 29/10/2026 : les deux e-wallets en pile, comme dans Apple Wallet. La
+   carte de devant est entière ; celle de derrière ne montre que son haut
+   (logo, nom, solde). La toucher la fait passer devant. */
+.wstack{ position:relative; padding-top:4px; margin-bottom:14px; }
+.wstack .wcard{ width:100%; }
+.wstack .wcard + .wcard{ margin-top:calc(62px - 100% / 1.586); }
+.wcard.is-back{
+  display:flex; flex-direction:column; text-align:left;
+  font:inherit; cursor:pointer; -webkit-appearance:none; appearance:none;
+  border:0; box-shadow:var(--shadow-card);
+  transform:scale(.95); transform-origin:top center;
+}
+.wcard.is-front.is-swap{ animation:wcard-in .34s cubic-bezier(.2,.8,.2,1); }
+@keyframes wcard-in{ from{ transform:translateY(-46px); } to{ transform:none; } }
+@media (prefers-reduced-motion: reduce){ .wcard.is-front.is-swap{ animation:none; } }
+.wcard.is-front{ text-align:left; font:inherit; -webkit-appearance:none; appearance:none; border:0; }
+button.wcard.is-front{ cursor:pointer; }
+.ewallet-uses .irow-ic{ color:var(--gold-dark); }
+.wcard-peek{ margin-left:8px; font-size:var(--t-13); letter-spacing:0; text-transform:none; color:var(--on-dark); }
+.wcard.is-resto{ background:var(--wcard-sheen), var(--wcard-resto-bg); }
+.wcard-use{ margin:2px 0 0; font-size:var(--t-11); color:var(--on-dark-2); }
+.wtopup{ width:100%; margin:0 0 14px; }
+.topup-custom{ position:relative; margin-top:12px; }
+.topup-custom .input{ padding-right:40px; font-size:var(--t-17); }
+.topup-custom-unit{ position:absolute; right:14px; top:50%; transform:translateY(-50%); color:var(--ink-3); }
+.total-note.is-error{ color:var(--negative); }
+.tchip-sub{ display:block; font-size:var(--t-11); opacity:.75; }
 
 /* --- Profil : carte membre complète --- */
 .mcard .mcard-status{ margin-top:4px; }
@@ -5462,10 +5496,13 @@ var PROFILES = {
     credits:{
       greenfee:{ unlimited:true },
       lessons:{ value:1.5, unit:'h', total:2.5 },
-      buckets:{ value:12, unit:'' }
+      buckets:{ value:12, unit:'', total:25 }
     },
     /* Porte-monnaie et avoir de Claire Dumas dans v3. */
     wallet:60,
+    /* 29/10/2026 : second e-wallet, réservé au restaurant du clubhouse.
+       HYPOTHÈSE : 40 euros pour Claire. */
+    walletResto:40,
     avoir:{ amount:25, until:'30/06/2027' },
     /* Son départ de v3 : La Forêt, à deux avec Paul, voiturette prise avec
        l'abonnement. */
@@ -5485,9 +5522,10 @@ var PROFILES = {
     credits:{
       greenfee:{ value:8, unit:'', expires:'31/12/2026' },
       lessons:{ value:0, unit:'h' },
-      buckets:{ value:3, unit:'' }
+      buckets:{ value:3, unit:'', total:10 }
     },
     wallet:0,
+    walletResto:0,
     avoir:null,
     booking:{ players:3, payment:'Payé', courseIndex:0, time:'09:12' }
   }
@@ -6114,6 +6152,9 @@ var ROUTES = {
   /* La cagnotte du lot 4 n'était qu'un emplacement réservé ; le lot 7 met
      l'écran derrière. Elle reste une carte distincte des compteurs. */
   '/wallet/cagnotte':   { title:'Cagnotte',          tab:'wallet', lot:7, v2:true },
+  '/wallet/topup':      { title:'Recharger',         tab:'wallet', lot:12 },
+  '/wallet/ewallet':    { title:'E-wallet',          tab:'wallet', lot:12 },
+  '/wallet/topup/confirm':{ title:'Recharge',        tab:'wallet', lot:12, terminal:true },
   /* Notifications — lot 5. Le centre se pousse depuis l'accueil, les
      préférences depuis le profil et depuis le centre. Les deux écrans liés au
      système — l'amorce de permission et la marche à suivre dans les réglages
@@ -6277,6 +6318,12 @@ var STATE = {
     packIndex:null,   // rang du carnet retenu dans PACKS[...].sizes
     paying:false,     // état d'attente du bouton d'achat
     reference:null,   // numéro de commande, figé à la confirmation
+    /* 29/10/2026 : recharge d'un e-wallet depuis l'app (golf ou resto). */
+    topup:{ kind:'golf', value:null, method:null, paying:false, reference:null, paid:0 },
+    front:'golf',     // e-wallet au premier plan de la pile (29/10)
+    ekind:'golf',     // e-wallet ouvert au détail
+    emoves:[],        // recharges et paiements faits dans le prototype
+    swap:false,
 
     /* Achats faits dans le prototype. Contrairement aux lots 2 et 3, où une
        réservation n'alimente pas les listes de démonstration, un achat de
@@ -6504,6 +6551,10 @@ function clearWallet(){
   clearWalletDraft();
   w.potId = null;
   w.moves = [];
+  /* 29/10 : soldes d'e-wallet remis à ceux de la démonstration. */
+  w.emoves = [];
+  w.front = 'golf';
+  restoreEwallets();
   /* Avoir utilisé d'office au paiement : le choix du joueur, décoché par
      défaut (commande du lot 9 ; v3 le coche). */
   w.avoirAuto = false;
@@ -7274,7 +7325,7 @@ function paymentChoices(){
   if(w > 0){
     out.push({
       id:'wallet', icon:'wallet',
-      title:'Payer ' + amount(grandTotal()) + ' avec votre e-wallet',
+      title:'Payer ' + amount(grandTotal()) + ' avec votre e-wallet golf',
       balanceFrom:null, balanceTo:null,
       walletFrom:w, walletTo:w - grandTotal(), disabled:w < grandTotal(),
       cash:grandTotal(), mixed:false
@@ -7618,7 +7669,7 @@ function lessonPaymentChoices(){
   if(w > 0){
     out.push({
       id:'wallet',
-      title:'Payer ' + amount(lessonTotal()) + ' avec votre e-wallet',
+      title:'Payer ' + amount(lessonTotal()) + ' avec votre e-wallet golf',
       balanceFrom:null, balanceTo:null,
       walletFrom:w, walletTo:w - lessonTotal(),
       disabled:w < lessonTotal(),
@@ -7647,7 +7698,7 @@ function lessonPaymentSummary(){
   var choice = chosenLessonPayment();
   if(!choice) return null;
   if(choice.id === 'card') return amount(choice.cash) + ' par carte';
-  if(choice.id === 'wallet') return amount(choice.cash) + ' avec votre e-wallet';
+  if(choice.id === 'wallet') return amount(choice.cash) + ' avec votre e-wallet golf';
   if(choice.id === 'applepay') return amount(choice.cash) + ' avec Apple Pay';
   return hoursLabel(lessonCreditPlan().need) + ' de votre carnet de cours';
 }
@@ -9681,6 +9732,9 @@ function walletGuard(path){
   if(path === '/wallet/pot'){
     return potAvailable(w.potId) ? path : '/wallet';
   }
+  /* 29/10/2026 : la confirmation de recharge suppose une recharge réglée. */
+  if(path === '/wallet/topup') return path;
+  if(path === '/wallet/topup/confirm') return w.topup.reference ? path : '/wallet/topup';
   if(path.indexOf('/wallet/buy') !== 0) return path;
   if(!potAvailable(w.buyPotId)) return '/wallet';
   if(path === '/wallet/buy') return path;
@@ -9991,6 +10045,9 @@ function renderScreen(entry){
   if(entry.path === '/bookings') return screenBookings();
   if(entry.path === '/bookings/gf') return screenGfBooking();
   if(entry.path === '/wallet/cagnotte') return screenCagnotte();
+  if(entry.path === '/wallet/topup') return screenTopup();
+  if(entry.path === '/wallet/ewallet') return screenEwallet();
+  if(entry.path === '/wallet/topup/confirm') return screenTopupConfirm();
   if(entry.path === '/profile') return screenProfile();
   if(entry.path === '/profile/identity') return screenIdentity();
   if(entry.path === '/profile/licence') return screenLicence();
@@ -12510,7 +12567,7 @@ function dropTableUpsell(){
    carnet, crédits), puis les cartes bancaires et « Ajouter une carte ». */
 function payMeta(c, ctx){
   if(c.id === 'wallet'){
-    return { group:'acc', icon:'wallet', name:'E-wallet (' + eurosCents(c.walletFrom) + ')',
+    return { group:'acc', icon:'wallet', name:'E-wallet golf (' + eurosCents(c.walletFrom) + ')',
              sub:c.disabled ? 'Solde insuffisant pour ' + (ctx === 'lesson' ? 'cette séance' : 'ce départ')
                             : 'Puis ' + eurosCents(c.walletTo) + ' après ' + (ctx === 'lesson' ? 'cette séance' : 'ce départ') };
   }
@@ -12597,7 +12654,7 @@ function payChoiceRow(choice){
   if(choice.id === 'wallet'){
     lines += '<span class="payopt-line">' + (choice.disabled
       ? 'Solde de <b>' + eurosCents(choice.walletFrom) + '</b>, insuffisant pour ce départ.'
-      : 'E-wallet <b>' + eurosCents(choice.walletFrom) + '</b> puis <b>'
+      : 'E-wallet golf <b>' + eurosCents(choice.walletFrom) + '</b> puis <b>'
         + eurosCents(choice.walletTo) + '</b> après ce départ.') + '</span>';
   }
   if(choice.id === 'card'){
@@ -12734,7 +12791,7 @@ function paymentSummary(){
   if(!choice) return 'Inclus dans votre abonnement';
   if(choice.id === 'card') return amount(choice.cash) + ' par carte';
   if(choice.id === 'applepay') return amount(choice.cash) + ' avec Apple Pay';
-  if(choice.id === 'wallet') return amount(choice.cash) + ' avec votre e-wallet';
+  if(choice.id === 'wallet') return amount(choice.cash) + ' avec votre e-wallet golf';
   if(choice.mixed){
     return creditsLabel(creditPlan().use) + ' et ' + amount(choice.cash) + ' par carte';
   }
@@ -13155,7 +13212,10 @@ function bookNow(){
   window.setTimeout(function(){
     d.paying = false;
     d.reference = makeReference();
-    if(d.payment === 'wallet') profile().wallet = Math.max(0, (profile().wallet || 0) - grandTotal());
+    if(d.payment === 'wallet'){
+      profile().wallet = Math.max(0, (profile().wallet || 0) - grandTotal());
+      logEwallet('golf', -grandTotal(), 'Réservation d\'un départ', 'Dans l\'app');
+    }
     recordBooking();
     navigate('/book/gf/confirm');
   }, PAY_DELAY);
@@ -14017,7 +14077,7 @@ function lessonPayRow(choice){
   if(choice.id === 'wallet'){
     lines += '<span class="payopt-line">' + (choice.disabled
       ? 'Solde de <b>' + eurosCents(choice.walletFrom) + '</b>, insuffisant pour cette séance.'
-      : 'E-wallet <b>' + eurosCents(choice.walletFrom) + '</b> puis <b>'
+      : 'E-wallet golf <b>' + eurosCents(choice.walletFrom) + '</b> puis <b>'
         + eurosCents(choice.walletTo) + '</b> après cette séance.') + '</span>';
   } else if(choice.balanceFrom !== null){
     lines += '<span class="payopt-line">Carnet de cours <b>'
@@ -14424,7 +14484,10 @@ function bookLesson(){
   window.setTimeout(function(){
     l.paying = false;
     l.reference = makeLessonReference();
-    if(l.payment === 'wallet') profile().wallet = Math.max(0, (profile().wallet || 0) - lessonTotal());
+    if(l.payment === 'wallet'){
+      profile().wallet = Math.max(0, (profile().wallet || 0) - lessonTotal());
+      logEwallet('golf', -lessonTotal(), 'Réservation d\'un cours', 'Dans l\'app');
+    }
     navigate('/book/lessons/confirm');
   }, PAY_DELAY);
   return true;
@@ -14556,7 +14619,26 @@ function potHeadBody(pot){
    booking engine v3 : un segment par cours de 30 min, « 3 / 5 cours
    restants ». Seulement quand le carnet du profil est connu en entier. */
 var GAUGE_UNIT = 0.5;
+/* 29/10/2026 : même jauge pour les seaux, un segment par seau du carnet,
+   « 12 / 25 seaux restants ». HYPOTHÈSE : carnet de 25 pour Claire, de 10
+   pour Sophie (tailles de PACKS). Un solde qui dépasse le carnet (après un
+   achat) fait la jauge à sa taille. */
+function bucketGauge(){
+  var b = profile().credits.buckets;
+  var left = potValue('buckets');
+  if(!b || !b.total || !left) return '';
+  var tot = Math.max(b.total, left);
+  var seg = '';
+  for(var i=0;i<tot;i++) seg += '<i' + (i < left ? ' class="is-on"' : '') + '></i>';
+  return ''
+    + '<span class="pot-gauge" data-role="pot-gauge">'
+    +   '<span class="gauge' + (tot > 15 ? ' is-dense' : '') + '" aria-hidden="true">' + seg + '</span>'
+    +   '<span class="pot-gauge-text">' + left + ' / ' + tot + ' seaux restants'
+    +     ' &middot; ' + (tot - left) + ' utilisé' + (tot - left > 1 ? 's' : '') + '</span>'
+    + '</span>';
+}
 function potGauge(pot){
+  if(pot.id === 'buckets') return bucketGauge();
   if(pot.id !== 'lessons' || STATE.demoLessons !== 'profile') return '';
   var total = profile().credits.lessons.total;
   if(!total) return '';
@@ -14566,27 +14648,28 @@ function potGauge(pot){
   var seg = '';
   for(var i=0;i<tot;i++) seg += '<i' + (i < left ? ' class="is-on"' : '') + '></i>';
   return ''
-    + '<div class="pot-gauge" data-role="pot-gauge">'
+    + '<span class="pot-gauge" data-role="pot-gauge">'
     +   '<span class="gauge" aria-hidden="true">' + seg + '</span>'
     +   '<span class="pot-gauge-text">' + left + ' / ' + tot
     +     ' cours de 30 min restants</span>'
-    + '</div>';
+    + '</span>';
 }
 
 function potCard(pot){
   var value = potValue(pot.id);
   return ''
-    + '<div class="pot" data-role="pot" data-pot="' + pot.id + '">'
-    +   '<button type="button" class="pot-open" data-act="pot-open" '
-    +     'data-value="' + pot.id + '" aria-label="' + pot.label
-    +     ', voir l\'historique">'
+    /* 29/10/2026 (Alexie) : plus de boutons Utiliser / Acheter sur le Wallet ;
+       toute la carte ouvre le détail du crédit, qui les garde. */
+    + '<button type="button" class="pot is-tap" data-role="pot" data-pot="' + pot.id + '" '
+    +   'data-act="pot-open" data-value="' + pot.id + '" aria-label="' + pot.label
+    +   ', voir le détail">'
+    +   '<span class="pot-open">'
     +     potHeadBody(pot)
     +     '<span class="pot-chevron">' + icon('chevron-right') + '</span>'
-    +   '</button>'
+    +   '</span>'
     +   potGauge(pot)
-    +   (value === 0 ? '<p class="pot-nudge">' + pot.empty + '</p>' : '')
-    +   potActions(pot)
-    + '</div>';
+    +   (value === 0 ? '<span class="pot-nudge">' + pot.empty + '</span>' : '')
+    + '</button>';
 }
 
 /* Emplacement V2. Le brief l'exige distinct des compteurs, et jamais comme un
@@ -14684,27 +14767,51 @@ function eurosCents(n){
   var parts = v.toFixed(2).split('.');
   return grouped(parts[0]) + ',' + parts[1] + ' €';
 }
-function walletCard(){
-  var p = profile();
-  var w = p.wallet || 0;
+/* 29/10/2026, retour client : le joueur a deux e-wallets distincts, un pour
+   le golf (départs, cours, locations, compétitions) et un pour le restaurant
+   du clubhouse. Ils ne se mélangent pas. Deux cartes bancaires côte à côte,
+   la seconde se découvre en faisant glisser. */
+/* role : 'front' (devant, ouvre le détail), 'back' (derrière, passe devant),
+   'flat' (en tête du détail, sans action). */
+function walletCardOne(kind, w, role, swap){
+  var resto = (kind === 'resto');
+  var back = (role === 'back');
+  var name = resto ? 'E-wallet restaurant' : 'E-wallet golf';
+  var tagName = role === 'flat' ? 'div' : 'button';
+  var act = back ? 'wcard-front' : 'ewallet-open';
   return ''
-    + '<div class="wcard" data-role="ewallet" aria-label="E-wallet, solde ' + eurosCents(w) + '">'
+    + '<' + tagName + (role === 'flat' ? '' : ' type="button" data-act="' + act + '" data-value="' + kind + '"')
+    +   ' class="wcard' + (resto ? ' is-resto' : '') + (back ? ' is-back' : ' is-front') + (swap && !back ? ' is-swap' : '') + '" '
+    +   'data-role="' + (resto ? 'ewallet-resto' : 'ewallet') + '" '
+    +   'aria-label="' + (back ? 'Afficher l\'' : (role === 'front' ? 'Détail de l\'' : '')) + name + ', solde ' + eurosCents(w) + '">'
     +   '<div class="wcard-top">' + brandLogo()
-    +     '<span class="wcard-tag">' + icon('wallet') + 'E-wallet</span></div>'
+    +     '<span class="wcard-tag">' + icon(resto ? 'tools-kitchen-2' : 'wallet')
+    +       (resto ? 'Restaurant' : 'Golf')
+    +       (back ? '<span class="wcard-peek">' + eurosCents(w) + '</span>' : '') + '</span></div>'
     +   '<span class="wcard-chip" aria-hidden="true"></span>'
-    +   '<p class="wcard-l">Solde disponible</p>'
+    +   '<p class="wcard-l">' + name + '</p>'
     +   '<p class="wcard-v ewallet-value">' + eurosCents(w) + '</p>'
     +   '<div class="wcard-foot">'
     +     '<span><span class="wcard-k">Titulaire</span><b>' + accountName() + '</b></span>'
     +     '<span class="wcard-site">' + currentSite().name + '</span>'
     +   '</div>'
+    + '</' + tagName + '>';
+}
+function walletCard(){
+  var p = profile();
+  var front = STATE.wallet.front === 'resto' ? 'resto' : 'golf';
+  var back = front === 'resto' ? 'golf' : 'resto';
+  var swap = STATE.wallet.swap; STATE.wallet.swap = false;
+  function bal(k){ return (k === 'resto' ? p.walletResto : p.wallet) || 0; }
+  return ''
+    + '<div class="wstack" data-role="ewallets" aria-label="Vos deux e-wallets">'
+    +   walletCardOne(back, bal(back), 'back', false)
+    +   walletCardOne(front, bal(front), 'front', swap)
     + '</div>'
-    + '<p class="wcard-note ewallet-text">' + icon('info-circle') + '<span>'
-    +   (w ? 'Utilisable au paiement de toutes les prestations du golf. '
-             + 'Il se recharge à l\'accueil.'
-           : 'Votre e-wallet se crédite à l\'accueil du golf. Il règle ensuite '
-             + 'vos départs, vos cours et vos locations.')
-    + '</span></p>';
+    + '<button type="button" class="btn is-quiet wtopup" data-act="topup-start" '
+    +   'data-role="topup-start">' + icon('plus') + 'Recharger l\'e-wallet '
+    +   (front === 'resto' ? 'restaurant' : 'golf') + '</button>'
+    ;
 }
 
 function accessRow(ic, title, sub, value){
@@ -15001,6 +15108,335 @@ function buyPack(){
    Le solde, lui, reste — c'est tout l'objet de l'achat. */
 function finishPurchase(){
   clearWalletDraft();
+  setRoot('/wallet');
+  return true;
+}
+
+/* --- Recharge d'un e-wallet — retour client du 29/10/2026 ----------------
+
+   Les deux e-wallets se rechargent depuis l'app. Un seul écran : quel
+   e-wallet, quel montant, avec quoi ; puis la confirmation avec le nouveau
+   solde. On ne recharge pas un e-wallet avec un autre : carte enregistrée
+   ou Apple Pay seulement. HYPOTHÈSE : montants proposés 20, 50, 100, 150 et
+   200 euros, pas de montant libre. */
+var TOPUP_VALUES = [20, 50, 100, 150, 200];
+/* 29/10/2026 : montant personnalisé. HYPOTHÈSE : de 10 à 500 euros, en
+   euros entiers. */
+var TOPUP_MIN = 10, TOPUP_MAX = 500;
+function topupCustomValue(raw){
+  var s = String(raw || '').replace(/\s|€/g, '');
+  if(!/^\d+$/.test(s)) return null;
+  var n = parseInt(s, 10);
+  return (n >= TOPUP_MIN && n <= TOPUP_MAX) ? n : null;
+}
+
+function topupBalance(kind){
+  var p = profile();
+  return (kind === 'resto' ? p.walletResto : p.wallet) || 0;
+}
+function topupName(kind){ return kind === 'resto' ? 'E-wallet restaurant' : 'E-wallet golf'; }
+
+/* Sans e-wallet désigné, on recharge celui que la personne regarde : la
+   carte au premier plan de la pile. */
+function startTopup(kind){
+  if(kind !== 'golf' && kind !== 'resto') kind = STATE.wallet.front === 'resto' ? 'resto' : 'golf';
+  STATE.wallet.topup = { kind:kind, value:null, method:mainCard() ? 'card' : 'applepay',
+                         paying:false, reference:null, paid:0, mode:'preset', custom:'' };
+  navigate('/wallet/topup');
+  return true;
+}
+function setTopup(field, value){
+  var t = STATE.wallet.topup;
+  if(field === 'kind'){
+    if(value !== 'golf' && value !== 'resto') return false;
+    t.kind = value;
+  } else if(field === 'value'){
+    if(value === 'custom'){
+      t.mode = 'custom';
+      t.value = topupCustomValue(t.custom);
+      refresh();
+      window.setTimeout(function(){
+        var f = document.getElementById('topup-custom');
+        if(f && f.focus) f.focus();
+      }, 30);
+      return true;
+    }
+    var n = parseInt(value, 10);
+    if(TOPUP_VALUES.indexOf(n) < 0) return false;
+    t.mode = 'preset';
+    t.value = n;
+  } else if(field === 'method'){
+    if(value === 'card' && !mainCard()) return false;
+    if(value !== 'card' && value !== 'applepay') return false;
+    t.method = value;
+  } else return false;
+  refresh();
+  return true;
+}
+function topupMethodRow(id, title, line, on, disabled){
+  return '<button type="button" class="payopt' + (on ? ' is-selected' : '') + '" '
+       +   'data-act="topup-method" data-value="' + id + '" role="radio" '
+       +   'aria-checked="' + (on ? 'true' : 'false') + '"'
+       +   (disabled ? ' disabled aria-disabled="true"' : '') + '>'
+       +   '<span class="payopt-mark">' + icon('check') + '</span>'
+       +   '<span class="payopt-body">'
+       +     '<span class="payopt-title">' + title + '</span>'
+       +     '<span class="payopt-line">' + line + '</span>'
+       +   '</span>'
+       + '</button>';
+}
+function screenTopup(){
+  var t = STATE.wallet.topup;
+  var kinds = tableChip('topup-kind', 'golf', t.kind === 'golf',
+                 'Golf<span class="tchip-sub">' + eurosCents(topupBalance('golf')) + '</span>', 'E-wallet golf')
+            + tableChip('topup-kind', 'resto', t.kind === 'resto',
+                 'Restaurant<span class="tchip-sub">' + eurosCents(topupBalance('resto')) + '</span>', 'E-wallet restaurant');
+  var values = '';
+  var custom = (t.mode === 'custom');
+  for(var i=0;i<TOPUP_VALUES.length;i++){
+    var v = TOPUP_VALUES[i];
+    values += tableChip('topup-value', v, !custom && t.value === v, amount(v), v + ' euros');
+  }
+  values += tableChip('topup-value', 'custom', custom, 'Autre montant', 'Autre montant');
+  var customField = custom
+    ? '<div class="topup-custom">'
+      + '<input class="input" id="topup-custom" type="text" inputmode="numeric" '
+      +   'autocomplete="off" maxlength="4" data-topup="custom" '
+      +   'placeholder="Montant" aria-label="Montant de la recharge, en euros" '
+      +   'value="' + (t.custom || '') + '">'
+      + '<span class="topup-custom-unit" aria-hidden="true">€</span>'
+      + '</div>'
+      + '<p class="form-hint">De ' + TOPUP_MIN + ' à ' + TOPUP_MAX + ' €, en euros entiers.</p>'
+    : '';
+  var card = mainCard();
+  var methods = (card
+      ? topupMethodRow('card', 'Carte \u2022\u2022\u2022\u2022 ' + card.last4,
+                       'Carte enregistrée dans votre profil.', t.method === 'card', false)
+      : '')
+    + topupMethodRow('applepay', 'Apple Pay', 'Validation sur votre téléphone.',
+                     t.method === 'applepay', false);
+  return ''
+    + '<div class="stepbody">'
+    +   '<h2 class="screen-title">Recharger un e-wallet</h2>'
+    +   '<section class="section">'
+    +     '<p class="eyebrow">Quel e-wallet&nbsp;?</p>'
+    +     '<div class="tchips" role="radiogroup" aria-label="E-wallet" data-role="topup-kinds">' + kinds + '</div>'
+    +   '</section>'
+    +   '<section class="section">'
+    +     '<p class="eyebrow">Quel montant&nbsp;?</p>'
+    +     '<div class="tchips" role="radiogroup" aria-label="Montant" data-role="topup-values">' + values + '</div>'
+    +     customField
+    +   '</section>'
+    +   '<section class="section" data-role="topup-methods">'
+    +     '<p class="eyebrow">Payer avec</p>'
+    +     methods
+    +     (card ? '' : '<button type="button" class="btn is-quiet" data-nav="/profile/cards">Ajouter une carte</button>')
+    +   '</section>'
+    + '</div>'
+    + topupFoot();
+}
+function topupFoot(){
+  var t = STATE.wallet.topup;
+  var after = topupBalance(t.kind) + (t.value || 0);
+  var ready = !!(t.value && t.method);
+  var note = t.value
+    ? topupName(t.kind) + ' : ' + eurosCents(after) + ' après la recharge.'
+    : (t.mode === 'custom' && t.custom
+        ? 'Choisissez un montant entre ' + TOPUP_MIN + ' et ' + TOPUP_MAX + ' €.'
+        : (t.mode === 'custom' ? 'Saisissez un montant pour continuer.'
+                                : 'Choisissez un montant pour continuer.'));
+  return ''
+    + '<div class="stepfoot" data-role="stepfoot">'
+    +   '<p class="total">'
+    +     '<span class="total-label">Total</span>'
+    +     '<span class="total-value" data-role="total">' + (t.value ? amount(t.value) : '\u2014') + '</span>'
+    +   '</p>'
+    +   '<p class="total-note' + (t.mode === 'custom' && t.custom && !t.value ? ' is-error' : '') + '">' + note + '</p>'
+    +   primaryButton('topup-pay', t.value ? 'Recharger de ' + amount(t.value) : 'Recharger',
+                      !ready, t.paying)
+    + '</div>';
+}
+function setTopupCustom(raw, input){
+  var t = STATE.wallet.topup;
+  t.custom = String(raw || '').replace(/[^\d]/g, '').slice(0, 4);
+  if(input && input.value !== t.custom) input.value = t.custom;
+  t.value = topupCustomValue(t.custom);
+  var screen = input && input.closest ? input.closest('.screen') : null;
+  var foot = screen ? screen.querySelector('[data-role="stepfoot"]') : null;
+  if(foot) foot.outerHTML = topupFoot();
+  return true;
+}
+function payTopup(){
+  var t = STATE.wallet.topup;
+  if(t.paying || !t.value || !t.method) return false;
+  t.paying = true;
+  refresh();
+  window.setTimeout(function(){
+    var p = profile();
+    if(t.kind === 'resto') p.walletResto = (p.walletResto || 0) + t.value;
+    else p.wallet = (p.wallet || 0) + t.value;
+    t.paying = false;
+    t.paid = t.value;
+    logEwallet(t.kind, t.value, 'Recharge',
+      'Dans l\'app' + (t.method === 'applepay' ? ' · Apple Pay' : ' · carte'));
+    t.reference = currentSite().code + '-'
+      + (Math.floor(draw('topup' + t.kind + t.value + STATE.siteCode) * 90000) + 10000);
+    navigate('/wallet/topup/confirm');
+  }, PAY_DELAY);
+  return true;
+}
+function screenTopupConfirm(){
+  var t = STATE.wallet.topup;
+  if(!t.reference) return screenNotFound();
+  var card = mainCard();
+  var by = t.method === 'applepay' ? 'avec Apple Pay'
+         : (card ? 'par carte \u2022\u2022\u2022\u2022 ' + card.last4 : 'par carte');
+  return ''
+    + '<div class="confirm-mark">' + icon('circle-check') + '</div>'
+    + '<h2 class="confirm-title">Recharge confirmée</h2>'
+    + '<p class="confirm-ref">Numéro <b>' + t.reference + '</b></p>'
+    + '<ul class="spec" data-role="topup-confirm">'
+    +   '<li>E-wallet <b>' + (t.kind === 'resto' ? 'Restaurant' : 'Golf') + '</b></li>'
+    +   '<li>Montant <b>' + amount(t.paid) + '</b></li>'
+    +   '<li>Réglé <b>' + by + '</b></li>'
+    +   '<li>Nouveau solde <b>' + eurosCents(topupBalance(t.kind)) + '</b></li>'
+    + '</ul>'
+    + '<button type="button" class="btn is-primary" data-act="topup-finish">'
+    +   'Revenir au wallet</button>';
+}
+/* --- Détail d'un e-wallet — retour d'Alexie du 29/10/2026 ---------------
+
+   Comme dans Apple Wallet : toucher la carte de devant ouvre son détail. La
+   carte en tête, « Recharger », ce que cet e-wallet règle, puis l'historique
+   des recharges et des paiements, le plus récent d'abord, avec le solde
+   après chaque mouvement. HYPOTHÈSE : l'historique de démonstration
+   (montants, libellés, dates) est posé par le prototype. */
+var EWALLET_BASE = null;
+function restoreEwallets(){
+  if(!EWALLET_BASE){
+    EWALLET_BASE = {};
+    for(var id in PROFILES){
+      EWALLET_BASE[id] = { golf:PROFILES[id].wallet || 0, resto:PROFILES[id].walletResto || 0 };
+    }
+  }
+  for(var k in EWALLET_BASE){
+    PROFILES[k].wallet = EWALLET_BASE[k].golf;
+    PROFILES[k].walletResto = EWALLET_BASE[k].resto;
+  }
+}
+var EWALLET_DEMO = {
+  passion:{
+    golf:[
+      { offset:-12, label:'Inscription à une compétition', where:'Accueil du golf', delta:-15 },
+      { offset:-31, label:'Location d\'une série de clubs', where:'Accueil du golf', delta:-25 },
+      { offset:-52, label:'Recharge', where:'Accueil du golf', delta:100 }
+    ],
+    resto:[
+      { offset:-25, label:'Déjeuner au clubhouse', where:'Restaurant du clubhouse', delta:-40 },
+      { offset:-60, label:'Recharge', where:'Accueil du golf', delta:80 }
+    ]
+  },
+  externe:{ golf:[], resto:[] }
+};
+var EWALLET_USES = {
+  golf:[
+    ['golf', 'Vos départs', 'Green-fees et options du départ'],
+    ['school', 'Vos cours', 'Cours particuliers et collectifs'],
+    ['car', 'Vos locations', 'Voiturette, chariot, série de clubs'],
+    ['trophy', 'Vos compétitions', 'Droits d\'inscription']
+  ],
+  resto:[
+    ['tools-kitchen-2', 'L\'addition au clubhouse', 'Réglée sur place, à la fin du repas']
+  ]
+};
+function logEwallet(kind, delta, label, where){
+  STATE.wallet.emoves.unshift({ kind:kind, offset:0, label:label, where:where, delta:delta });
+}
+/* Le plus récent d'abord ; le solde après chaque mouvement se déduit du
+   solde actuel en remontant le temps. */
+function ewalletHistory(kind){
+  var live = [];
+  for(var i=0;i<STATE.wallet.emoves.length;i++){
+    if(STATE.wallet.emoves[i].kind === kind) live.push(STATE.wallet.emoves[i]);
+  }
+  var demo = (EWALLET_DEMO[STATE.persona] || {})[kind] || [];
+  var all = live.concat(demo);
+  var bal = topupBalance(kind);
+  var out = [];
+  for(var j=0;j<all.length;j++){
+    out.push({ m:all[j], after:bal });
+    bal -= all[j].delta;
+  }
+  return out;
+}
+function ewalletMoveRow(e){
+  var m = e.m;
+  var plus = m.delta > 0;
+  return ''
+    + '<div class="move" data-role="emove">'
+    +   '<span class="move-date">' + moveDate(m.offset) + '</span>'
+    +   '<span class="move-body">'
+    +     '<span class="move-kind">' + m.label + '</span>'
+    +     '<span class="move-site">' + m.where + '</span>'
+    +   '</span>'
+    +   '<span class="move-side">'
+    +     '<span class="move-delta' + (plus ? ' is-plus' : '') + '">' + (plus ? '+' : '−')
+    +       eurosCents(Math.abs(m.delta)) + '</span>'
+    +     '<span class="move-after">Solde ' + eurosCents(e.after) + '</span>'
+    +   '</span>'
+    + '</div>';
+}
+function openEwallet(kind){
+  if(kind !== 'golf' && kind !== 'resto') return false;
+  STATE.wallet.ekind = kind;
+  navigate('/wallet/ewallet');
+  return true;
+}
+function screenEwallet(){
+  var kind = STATE.wallet.ekind === 'resto' ? 'resto' : 'golf';
+  var uses = '';
+  var list = EWALLET_USES[kind];
+  for(var i=0;i<list.length;i++) uses += accessRow(list[i][0], list[i][1], list[i][2], null);
+  var hist = ewalletHistory(kind);
+  var rows = '';
+  for(var j=0;j<hist.length;j++) rows += ewalletMoveRow(hist[j]);
+  var body = hist.length
+    ? '<div class="moves" data-role="emoves">' + rows + '</div>'
+    : '<div class="moves-empty" data-role="emoves-empty">' + icon('history')
+      + '<p class="moves-empty-title">Aucun mouvement</p>'
+      + '<p class="moves-empty-text">Rechargez cet e-wallet pour commencer à '
+      + (kind === 'resto' ? 'régler vos additions au clubhouse.' : 'régler vos réservations avec.')
+      + '</p></div>';
+  return ''
+    + '<div class="wstack">' + walletCardOne(kind, topupBalance(kind), 'flat', false) + '</div>'
+    + '<button type="button" class="btn is-primary wtopup" data-act="topup-for" data-value="' + kind + '" '
+    +   'data-role="ewallet-topup">' + icon('plus') + 'Recharger</button>'
+    + '<section class="section" data-role="ewallet-uses">'
+    +   '<p class="eyebrow">Ce qu\'il règle</p>'
+    +   '<div class="ilist ewallet-uses">' + uses + '</div>'
+    +   '<p class="wallet-lead">' + icon('info-circle') + '<span>'
+    +     (kind === 'resto'
+          ? 'Il ne règle pas les prestations golf, et l\'e-wallet golf ne règle pas le restaurant.'
+          : 'Dans l\'app et à l\'accueil du golf. Il ne règle pas le restaurant : '
+            + 'c\'est le rôle de l\'e-wallet restaurant.')
+    +   '</span></p>'
+    + '</section>'
+    + '<section class="section" data-role="ewallet-history">'
+    +   '<p class="eyebrow">Historique</p>'
+    +   body
+    + '</section>';
+}
+
+function setWalletFront(kind){
+  if(kind !== 'golf' && kind !== 'resto') return false;
+  if(STATE.wallet.front === kind) return false;
+  STATE.wallet.front = kind;
+  STATE.wallet.swap = true;
+  refresh();
+  return true;
+}
+function finishTopup(){
+  STATE.wallet.topup = { kind:'golf', value:null, method:null, paying:false, reference:null, paid:0 };
   setRoot('/wallet');
   return true;
 }
@@ -15552,7 +15988,7 @@ function screenProfile(){
     { id:'bookings', tab:'bookings', icon:'calendar-event', title:'Réservations',
       text:'À venir et passées, listes d\'attente', value:up + ' à venir', flag:false },
     { id:'carnets', tab:'wallet', icon:'wallet', title:'Carnets &amp; avoirs',
-      text:'E-wallet, crédits, avoirs', value:euros(p.wallet || 0), flag:false },
+      text:'E-wallets golf et restaurant, crédits, avoirs', value:euros(p.wallet || 0), flag:false },
     mem,
     { id:'relatives', to:'/profile/relatives', icon:'users', title:'Mes proches',
       text:'Proposés quand vous composez un départ',
@@ -18471,7 +18907,11 @@ function screenTable(){
         +   '<li>Couverts <b>' + item.seats + '</b></li>'
         + '</ul>'
         + '<p class="cancelnote">' + icon('info-circle')
-        +   '<span>Réservée à votre nom. L\'addition se règle au clubhouse.</span></p>'
+        +   '<span>Réservée à votre nom. L\'addition se règle au clubhouse'
+        +   (profile().walletResto
+             ? ', avec votre e-wallet restaurant si vous le souhaitez ('
+               + eurosCents(profile().walletResto) + ').'
+             : '.') + '</span></p>'
         + '<button type="button" class="btn is-primary" data-tab="bookings">'
         +   'Voir mes réservations</button>'
         + '<button type="button" class="btn is-quiet" data-act="table-again">'
@@ -19128,6 +19568,15 @@ function bindDevice(){
       else if(name === 'to-wallet-pay') navigate('/wallet/buy/pay');
       else if(name === 'wallet-pay') buyPack();
       else if(name === 'wallet-finish') finishPurchase();
+      else if(name === 'topup-start') startTopup(null);
+      else if(name === 'wcard-front') setWalletFront(value);
+      else if(name === 'ewallet-open') openEwallet(value);
+      else if(name === 'topup-for') startTopup(value);
+      else if(name === 'topup-kind') setTopup('kind', value);
+      else if(name === 'topup-value') setTopup('value', value);
+      else if(name === 'topup-method') setTopup('method', value);
+      else if(name === 'topup-pay') payTopup();
+      else if(name === 'topup-finish') finishTopup();
       else if(name === 'notif-open') openNotification(value);
       else if(name === 'pref') togglePref(value);
       else if(name === 'messenger') setMessenger(value);
@@ -19179,6 +19628,8 @@ function bindDevice(){
     if(!e.target || !e.target.getAttribute) return;
     /* Lot 9d : le golf de la grille des tarifs. */
     if(e.target.getAttribute('data-tsite')){ setTariffSite(e.target.value); return; }
+    /* 29/10 : montant personnalisé de la recharge. */
+    if(e.target.getAttribute('data-topup')){ setTopupCustom(e.target.value, e.target); return; }
     var field = e.target.getAttribute('data-field');
     if(field){ setGuestField(field, e.target.value); return; }
     /* Les champs du profil (lot 6) n'entraînent pas de rendu : redessiner à
