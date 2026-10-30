@@ -71,6 +71,9 @@
   --on-dark-2:rgba(255,255,255,.78);
   --glass:rgba(255,255,255,.16);
   --glass-line:rgba(255,255,255,.30);
+  /* Lot 12b (30/10) : voile du bon cadeau au modèle « Links » (photo du
+     parcours), repris du prototype des bons cadeaux. */
+  --gbon-shade:linear-gradient(180deg,rgba(26,20,14,.42) 0%,rgba(26,20,14,.88) 100%);
   --wcard-bg:linear-gradient(135deg,#2b2218 0%,#1a140e 48%,#3b2d13 100%);
   --wcard-sheen:radial-gradient(120% 90% at 100% 0%,rgba(213,166,68,.38) 0%,rgba(213,166,68,0) 55%);
   --wcard-line:rgba(213,166,68,.45);
@@ -4402,22 +4405,12 @@ button.pot.is-v2:active{ background:var(--gold-soft); }
 
 /* --- Accueil : raccourcis en pastilles --- */
 .quick{ display:grid; grid-template-columns:repeat(4,1fr); gap:4px; }
-.qwides{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; }
-.qwide{
-  display:flex; align-items:center; gap:10px;
-  min-height:56px; padding:8px 10px 8px 8px;
-  border:0; border-radius:18px;
-  background:var(--surface); box-shadow:var(--shadow-card);
-  font-family:inherit; text-align:left; color:var(--ink); cursor:pointer;
-}
-.qwide:active{ background:var(--gold-soft); }
-.qwide-mark{
-  flex:0 0 auto; width:38px; height:38px;
-  display:inline-flex; align-items:center; justify-content:center;
-  border-radius:12px; background:var(--gold-light); color:var(--gold-dark); font-size:20px;
-}
-.qwide-label{ flex:1 1 auto; min-width:0; font-size:var(--t-13); font-weight:var(--w-medium); white-space:nowrap; }
-.qwide > .ti{ flex:0 0 auto; font-size:16px; color:var(--ink-3); }
+/* Lot 12 (29/10) : cinq pastilles avec le practice, libellés en un mot. */
+.quick.is-5{ grid-template-columns:repeat(5,1fr); gap:2px; }
+.quick.is-5 .quick-mark{ width:54px; height:54px; border-radius:18px; font-size:24px; }
+.quick.is-5 .quick-btn{ font-size:11.5px; }
+/* Lot 12b (30/10) : les deux boutons larges (Mes réservations, Mon QR
+   code) quittent l'accueil ; le QR passe en vignette dans le héros. */
 .quick-btn{
   display:flex; flex-direction:column; align-items:center; gap:8px;
   min-height:44px;
@@ -4678,6 +4671,7 @@ button.sbar-row{ cursor:pointer; }
   text-decoration:underline; text-underline-offset:3px; cursor:pointer;
 }
 .quick.is-2{ grid-template-columns:repeat(3,1fr); }
+.quick.is-5.is-2{ grid-template-columns:repeat(4,1fr); }
 .empty-photo{ height:150px; }
 
 /* --- Onglets en tête d'écran (Mes réservations, détail du départ) --- */
@@ -4848,6 +4842,76 @@ button.wcard.is-front{ cursor:pointer; }
 .wcard-peek{ margin-left:8px; font-size:var(--t-13); letter-spacing:0; text-transform:none; color:var(--on-dark); }
 .wcard.is-resto{ background:var(--wcard-sheen), var(--wcard-resto-bg); }
 .wcard-use{ margin:2px 0 0; font-size:var(--t-11); color:var(--on-dark-2); }
+/* Lot 12 (29/10) : inactivité d'un e-wallet, bloqué après 12 mois. */
+.wcard-idle{ margin:4px 0 0; font-size:12px; font-style:italic; color:var(--on-dark-2); }
+.wcard-idle.is-soon, .wcard-idle.is-blocked{ color:var(--gold-light); }
+.ewallet-last{ margin:-4px 4px 12px; font-size:12.5px; font-style:italic; color:var(--ink-3); }
+.ewallet-last.is-soon{ color:var(--attention); }
+.ewallet-last.is-blocked{ color:var(--negative); }
+/* Lot 12 : cartes cadeaux du wallet. */
+.gift-ic{ color:var(--gold-dark); }
+.gift-form{ margin-top:6px; }
+.gift-form .input{ font-size:var(--t-17); letter-spacing:.08em; text-transform:uppercase; }
+/* Lot 12b (30/10) : vignette QR du héros, à droite du salut. Carré givré de
+   56 px, mini QR sur pastille blanche pour rester lisible sur la photo. */
+.hero-hi{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+.hero.is-photo .hero-hi .hero-hello{ margin:0; min-width:0; }
+.hero-qr{
+  flex:0 0 auto; width:56px; height:56px; padding:0;
+  display:inline-flex; align-items:center; justify-content:center;
+  border:1px solid var(--glass-line); border-radius:14px;
+  background:var(--glass);
+  -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+  cursor:pointer;
+}
+.hero-qr:active{ background:var(--glass-line); }
+.hero-qr:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+.hero-qr-code{ display:block; padding:3px; border-radius:6px; background:var(--surface); }
+.hero-qr .qr{ width:34px; height:34px; }
+/* La carte membre : son QR s'ouvre en plein écran (/qr). */
+button.mcard-qr{ border:0; font:inherit; cursor:pointer; min-width:44px; min-height:44px; }
+button.mcard-qr:focus-visible{ outline:2px solid var(--gold); outline-offset:2px; }
+/* Lot 12b : le bon cadeau dans le wallet, d'après gcBonHtml (boutique_cadeaux). */
+.gbon{
+  position:relative; overflow:hidden;
+  display:grid; gap:6px;
+  padding:20px 20px 16px; border-radius:18px;
+  background:var(--ink); color:var(--gold-light);
+  box-shadow:var(--shadow-card);
+  font-size:var(--t-13); line-height:1.4;
+}
+.gbon > *{ position:relative; min-width:0; }
+.gbon > .ph{ position:absolute; inset:0; }
+.gbon > .ph .ph-shade{ background:var(--gbon-shade); }
+.gbon p{ margin:0; }
+.gbon-top{ display:flex; justify-content:space-between; gap:10px; font-size:9.5px; letter-spacing:.18em; text-transform:uppercase; }
+.gbon .gbon-t{ margin-top:8px; font-size:var(--t-22); font-weight:var(--w-light); line-height:1.2; color:var(--on-dark); }
+.gbon-v{ font-size:30px; font-weight:var(--w-medium); line-height:1.1; color:var(--on-dark); }
+.gbon-e{ font-size:12.5px; }
+.gbon .gbon-for{ margin-top:4px; font-size:var(--t-15); color:var(--on-dark); }
+.gbon-foot{ display:flex; gap:12px; align-items:center; margin-top:8px; padding-top:12px; border-top:1px solid var(--glass-line); font-size:12px; }
+.gbon-foot b{ font-weight:var(--w-medium); letter-spacing:.1em; color:var(--on-dark); }
+.gbon-foot small{ display:block; font-size:11.5px; color:var(--on-dark-2); }
+.gbon-qr{ flex:0 0 auto; padding:4px; border-radius:6px; background:var(--surface); }
+.gbon-qr .qr{ width:52px; height:52px; }
+.gbon.is-off{ filter:grayscale(1); opacity:.7; }
+.gift-valid{ display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:12px 2px 0; font-size:var(--t-13); color:var(--ink-2); }
+.gift-valid.is-soon{ color:var(--attention); }
+.gift-valid.is-off{ color:var(--negative); }
+.gift-solde{ margin-top:16px; }
+.gift-off{ margin-top:16px; }
+/* Lot 12 : QR code en grand (Mon QR code, seau réservé). */
+.qrbig{
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  margin:4px 0 16px; padding:22px 18px 18px;
+  border:1px solid var(--line); border-radius:20px; background:var(--surface); box-shadow:var(--shadow-card);
+  text-align:center;
+}
+.qrbig .qr{ width:228px; height:228px; }
+.qrbig-code{ padding:10px; border-radius:14px; background:var(--surface); }
+.qrbig-name{ margin:6px 0 0; font-size:var(--t-17); font-weight:var(--w-semi); color:var(--ink); }
+.qrbig-sub{ margin:0; font-size:var(--t-13); color:var(--ink-3); }
+.practice-card{ margin-top:4px; }
 .wtopup{ width:100%; margin:0 0 14px; }
 .topup-custom{ position:relative; margin-top:12px; }
 .topup-custom .input{ padding-right:40px; font-size:var(--t-17); }
@@ -6135,6 +6199,9 @@ var ROUTES = {
   /* Lot 10 : la table au clubhouse entre dans la V1 (point du 19/10). */
   '/book/table': { title:'Restaurant', tab:'book', lot:10 },
   '/book/comp':         { title:'Compétitions', tab:'book', lot:11 },
+  /* Lot 12 (29/10) : un seau de balles seul, sans horaire. */
+  '/book/practice':         { title:'Practice', tab:'book', lot:12 },
+  '/book/practice/confirm': { title:'Practice', tab:'book', lot:12, terminal:true },
   '/book/comp/inscr':   { title:'Inscription',  tab:'book', lot:11 },
   '/book/comp/confirm': { title:'Inscription',  tab:'book', lot:11, terminal:true },
 
@@ -6153,6 +6220,7 @@ var ROUTES = {
      l'écran derrière. Elle reste une carte distincte des compteurs. */
   '/wallet/cagnotte':   { title:'Cagnotte',          tab:'wallet', lot:7, v2:true },
   '/wallet/topup':      { title:'Recharger',         tab:'wallet', lot:12 },
+  '/wallet/gift':       { title:'Ajouter un bon cadeau', tab:'wallet', lot:12 },
   '/wallet/ewallet':    { title:'E-wallet',          tab:'wallet', lot:12 },
   '/wallet/topup/confirm':{ title:'Recharge',        tab:'wallet', lot:12, terminal:true },
   /* Notifications — lot 5. Le centre se pousse depuis l'accueil, les
@@ -6166,6 +6234,9 @@ var ROUTES = {
   '/notifications/prefs':  { title:'Vos notifications',  lot:5 },
   '/notifications/optin':  { title:'Notifications',      lot:5 },
   '/notifications/system': { title:'Réglages du téléphone', lot:5 },
+  /* Lot 12 (29/10) : « Mon QR code », ex-« Ma carte ». Sans onglet : il
+     hérite de celui d'où on l'ouvre, comme les notifications. */
+  '/qr': { title:'Mon QR code', lot:12 },
 
   /* Onglet Club — lot 7. Sa racine est le fil de la vie du club ; les
      compétitions et la boutique s'ouvrent depuis lui. Le §4 du brief
@@ -6324,6 +6395,12 @@ var STATE = {
     ekind:'golf',     // e-wallet ouvert au détail
     emoves:[],        // recharges et paiements faits dans le prototype
     swap:false,
+    /* Lot 12 (29/10) : cartes cadeaux ajoutées, saisie du code, seau au
+       practice. */
+    gifts:[],
+    gift:{ code:'', error:null, done:null },
+    practice:{ method:null, sheet:null, paying:false, reference:null, paid:0, used:null },
+    ready:0,          // seaux réservés dans l'app, à retirer à la machine
 
     /* Achats faits dans le prototype. Contrairement aux lots 2 et 3, où une
        réservation n'alimente pas les listes de démonstration, un achat de
@@ -6555,6 +6632,10 @@ function clearWallet(){
   w.emoves = [];
   w.front = 'golf';
   restoreEwallets();
+  w.gifts = [];
+  w.gift = { code:'', error:null, done:null };
+  clearPractice();
+  w.ready = 0;
   /* Avoir utilisé d'office au paiement : le choix du joueur, décoché par
      défaut (commande du lot 9 ; v3 le coche). */
   w.avoirAuto = false;
@@ -7320,9 +7401,10 @@ function paymentChoices(){
       mixed:plan.mixed
     });
   }
-  /* Retour du 22/10 : l'e-wallet règle aussi un départ. */
+  /* Retour du 22/10 : l'e-wallet règle aussi un départ. Lot 12 : pas
+     quand il est bloqué. */
   var w = profile().wallet || 0;
-  if(w > 0){
+  if(w > 0 && !ewalletBlocked('golf')){
     out.push({
       id:'wallet', icon:'wallet',
       title:'Payer ' + amount(grandTotal()) + ' avec votre e-wallet golf',
@@ -7331,6 +7413,8 @@ function paymentChoices(){
       cash:grandTotal(), mixed:false
     });
   }
+  var gc = giftChoice(grandTotal());
+  if(gc){ gc.mixed = false; gc.balanceFrom = null; gc.balanceTo = null; out.push(gc); }
   out.push({
     id:'card',
     icon:'credit-card',
@@ -7666,7 +7750,9 @@ function lessonPaymentChoices(){
   }
   /* Retour du 22/10 : l'e-wallet règle aussi un cours. */
   var w = profile().wallet || 0;
-  if(w > 0){
+  var gcl = giftChoice(lessonTotal());
+  if(gcl){ gcl.balanceFrom = null; gcl.balanceTo = null; }
+  if(w > 0 && !ewalletBlocked('golf')){
     out.push({
       id:'wallet',
       title:'Payer ' + amount(lessonTotal()) + ' avec votre e-wallet golf',
@@ -7676,6 +7762,7 @@ function lessonPaymentChoices(){
       cash:lessonTotal()
     });
   }
+  if(gcl) out.push(gcl);
   out.push({
     id:'card',
     title:'Payer ' + amount(lessonTotal()) + ' par carte',
@@ -7699,6 +7786,7 @@ function lessonPaymentSummary(){
   if(!choice) return null;
   if(choice.id === 'card') return amount(choice.cash) + ' par carte';
   if(choice.id === 'wallet') return amount(choice.cash) + ' avec votre e-wallet golf';
+  if(choice.id === 'gift') return amount(choice.cash) + ' avec votre carte cadeau';
   if(choice.id === 'applepay') return amount(choice.cash) + ' avec Apple Pay';
   return hoursLabel(lessonCreditPlan().need) + ' de votre carnet de cours';
 }
@@ -7961,7 +8049,7 @@ function potHistory(id){
   var after = value;
   for(var i=mine.length-1;i>=0;i--){
     if(mine[i].pot !== id) continue;
-    out.push({ kind:'achat', delta:mine[i].delta, after:after,
+    out.push({ kind:mine[i].kind || 'achat', delta:mine[i].delta, after:after,
                offset:0, site:mine[i].site });
     after -= mine[i].delta;
   }
@@ -9545,6 +9633,12 @@ function setHash(path){
 
 function resolveRoute(path){
   if(ROUTES[path]) return ROUTES[path];
+  /* Lot 12b (30/10) : fiche d'un bon du wallet, /wallet/gift/<code>. */
+  var gc = giftPathCode(path);
+  if(gc){
+    return { title:(GIFT_CARDS[gc].type === 'coffret' ? 'Coffret' : 'Carte cadeau'),
+             tab:'wallet', lot:12, kind:'gift' };
+  }
   var m = /^(\/[a-z]+)\/detail$/.exec(path);
   if(m && ROUTES[m[1]]){
     return { title:'Écran de détail', kind:'detail', parent:ROUTES[m[1]], lot:ROUTES[m[1]].lot };
@@ -9611,6 +9705,7 @@ function tunnelGuard(path){
   if(path.indexOf('/notifications') === 0) return notifGuard(path);
   if(path.indexOf('/wallet') === 0) return walletGuard(path);
   if(path.indexOf('/book/lessons') === 0) return lessonGuard(path);
+  if(path === '/book/practice/confirm') return STATE.wallet.practice.reference ? path : '/book/practice';
   if(path.indexOf('/book/gf/') !== 0) return path;
   if(path === '/book/gf/site') return path;
 
@@ -9735,6 +9830,8 @@ function walletGuard(path){
   /* 29/10/2026 : la confirmation de recharge suppose une recharge réglée. */
   if(path === '/wallet/topup') return path;
   if(path === '/wallet/topup/confirm') return w.topup.reference ? path : '/wallet/topup';
+  /* Lot 12b : la fiche d'un bon suppose le bon ajouté au wallet. */
+  if(giftPathCode(path)) return giftEntry(giftPathCode(path)) ? path : '/wallet';
   if(path.indexOf('/wallet/buy') !== 0) return path;
   if(!potAvailable(w.buyPotId)) return '/wallet';
   if(path === '/wallet/buy') return path;
@@ -9790,6 +9887,8 @@ function back(){
      || entry.path.indexOf('/profile') === 0
      || entry.path.indexOf('/bookings') === 0
      || entry.path === '/book/table'
+     || entry.path === '/book/practice'
+     || entry.path === '/qr'
      || entry.path.indexOf('/book/comp') === 0){
     var inner = entry.el.querySelector('.screen-inner');
     if(inner) inner.innerHTML = renderScreen(entry);
@@ -10046,6 +10145,11 @@ function renderScreen(entry){
   if(entry.path === '/bookings/gf') return screenGfBooking();
   if(entry.path === '/wallet/cagnotte') return screenCagnotte();
   if(entry.path === '/wallet/topup') return screenTopup();
+  if(entry.path === '/wallet/gift') return screenGift();
+  if(giftPathCode(entry.path)) return screenGiftCard(giftPathCode(entry.path));
+  if(entry.path === '/book/practice') return screenPractice();
+  if(entry.path === '/book/practice/confirm') return screenPracticeConfirm();
+  if(entry.path === '/qr') return screenMyQr();
   if(entry.path === '/wallet/ewallet') return screenEwallet();
   if(entry.path === '/wallet/topup/confirm') return screenTopupConfirm();
   if(entry.path === '/profile') return screenProfile();
@@ -10238,7 +10342,11 @@ function homeHero(){
     + '<header class="hero is-photo" data-role="hero">'
     +   photo(site, null, 'hero-' + site.code)
     +   '<div class="hero-content">'
-    +     '<p class="hero-hello">Bonjour <b>' + p.firstName + '</b></p>'
+    /* Lot 12b (30/10) : la vignette QR à droite du salut, alignée sur lui. */
+    +     '<div class="hero-hi">'
+    +       '<p class="hero-hello">Bonjour <b>' + p.firstName + '</b></p>'
+    +       heroQr()
+    +     '</div>'
     +     '<div class="hero-meta">'
     /* Retour du 22/10 : le golf de référence est une information, pas un
        bouton. Il se change depuis le profil (Site de rattachement). */
@@ -10253,8 +10361,18 @@ function homeHero(){
     + '</header>';
 }
 
+/* Lot 12b (30/10) : le QR du joueur en vignette dans le héros, à la place
+   du bouton large « Mon QR code ». Le même motif que le QR en grand
+   (myQrSeed) ; un appui ouvre /qr. Cible de 56 px. */
+function heroQr(){
+  return '<button type="button" class="hero-qr" data-nav="/qr" data-role="hero-qr" '
+       +   'aria-label="Afficher mon QR code">'
+       +   '<span class="hero-qr-code">' + qrSvg(myQrSeed()) + '</span>'
+       + '</button>';
+}
+
 /* Lot 11 : la carte du prochain départ ouvre la gestion de la réservation
-   (paiement, joueurs, la partie), sur le modèle du lien de paiement. */
+   (départ, joueurs, paiement depuis le lot 12), sur le modèle du lien de paiement. */
 function avatars(players, max){
   var html = '<span class="avs" aria-hidden="true">';
   for(var i=0;i<players.length && i<(max || 4);i++){
@@ -10400,30 +10518,27 @@ function quickBtn(attr, ic, label){
        +   '<span>' + label + '</span>'
        + '</button>';
 }
-function qwide(attr, ic, label){
-  return '<button type="button" class="qwide" ' + attr + '>'
-       +   '<span class="qwide-mark">' + icon(ic) + '</span>'
-       +   '<span class="qwide-label">' + label + '</span>'
-       +   icon('chevron-right')
-       + '</button>';
-}
 function homeShortcuts(emptyState){
   return ''
     + '<section class="section" data-role="shortcuts">'
     /* Retour du 22/10 : deux temps. En haut, réserver (pastilles rondes) ;
        dessous, consulter ce qu'on a (deux boutons larges, libellé sur une
        ligne) : Mes réservations, qui remplace le lien sous la carte du
-       départ, et Ma carte. */
-    +   '<div class="quick' + (emptyState ? ' is-2' : '') + '">'
-    +     (emptyState ? '' : quickBtn('data-act="gf-start"', 'golf', 'Un départ'))
-    +     quickBtn('data-nav="/book/lessons"', 'school', 'Un cours')
-    +     quickBtn('data-nav="/book/comp"', 'trophy', 'Une compétition')
-    +     quickBtn('data-nav="/book/table"', 'tools-kitchen-2', 'Une table')
+       départ, et Mon QR code (ex-Ma carte, lot 12). */
+    /* Lot 12 (29/10) : libellés en un mot, comme sur Réserver, et le
+       practice en cinquième pastille. « Ma carte » devient « Mon QR code »
+       et ouvre le code en grand (confusion avec une carte bancaire ou une
+       carte d'abonnement). */
+    +   '<div class="quick is-5' + (emptyState ? ' is-2' : '') + '">'
+    +     (emptyState ? '' : quickBtn('data-act="gf-start"', 'golf', 'Départ'))
+    +     quickBtn('data-nav="/book/lessons"', 'school', 'Cours')
+    +     quickBtn('data-act="practice-start" data-role="quick-practice"', 'bucket', 'Practice')
+    +     quickBtn('data-nav="/book/comp"', 'trophy', 'Compétition')
+    +     quickBtn('data-nav="/book/table"', 'tools-kitchen-2', 'Table')
     +   '</div>'
-    +   '<div class="qwides">'
-    +     qwide('data-tab="bookings" data-role="see-all"', 'calendar-event', 'Mes réservations')
-    +     qwide('data-tab="profile"', 'id', 'Ma carte')
-    +   '</div>'
+    /* Lot 12b (30/10) : plus de boutons larges. Mes réservations est un
+       onglet, la carte du départ porte « Gérer ma réservation », le QR est
+       dans le héros (heroQr). */
     + '</section>';
 }
 
@@ -10752,13 +10867,13 @@ function screenBook(){
   var site = currentSite();
   return ''
     + '<h2 class="screen-title">Que souhaitez-vous réserver ?</h2>'
-    + '<p class="screen-text">Un départ, une séance avec un pro ou une table au '
-    +   'clubhouse, ' + atSite(site) + '.</p>'
+    + '<p class="screen-text">Un départ, un cours, un seau au practice, une compétition '
+    +   'ou une table au clubhouse, ' + atSite(site) + '.</p>'
     + '<section class="section">'
     +   '<button type="button" class="pick" data-act="gf-start">'
     +     '<span class="pick-mark">' + icon('golf') + '</span>'
     +     '<span class="pick-body">'
-    +       '<span class="pick-title">Un départ</span>'
+    +       '<span class="pick-title">Départ</span>'
     +       '<span class="pick-text">' + courseNames(currentSite()) + '</span>'
     +     '</span>'
     +     '<i class="ti ti-chevron-right pick-chevron" aria-hidden="true"></i>'
@@ -10766,15 +10881,24 @@ function screenBook(){
     +   '<button type="button" class="pick" data-nav="/book/lessons">'
     +     '<span class="pick-mark">' + icon('school') + '</span>'
     +     '<span class="pick-body">'
-    +       '<span class="pick-title">Un cours</span>'
+    +       '<span class="pick-title">Cours</span>'
     +       '<span class="pick-text">Séance individuelle ou cours collectif</span>'
+    +     '</span>'
+    +     '<i class="ti ti-chevron-right pick-chevron" aria-hidden="true"></i>'
+    +   '</button>'
+    /* Lot 12 (29/10) : le practice, un seau de balles sans horaire. */
+    +   '<button type="button" class="pick" data-act="practice-start" data-role="practice-pick">'
+    +     '<span class="pick-mark">' + icon('bucket') + '</span>'
+    +     '<span class="pick-body">'
+    +       '<span class="pick-title">Practice</span>'
+    +       '<span class="pick-text">' + practicePickText() + '</span>'
     +     '</span>'
     +     '<i class="ti ti-chevron-right pick-chevron" aria-hidden="true"></i>'
     +   '</button>'
     +   '<button type="button" class="pick" data-nav="/book/comp" data-role="comp-pick">'
     +     '<span class="pick-mark">' + icon('trophy') + '</span>'
     +     '<span class="pick-body">'
-    +       '<span class="pick-title">Une compétition</span>'
+    +       '<span class="pick-title">Compétition</span>'
     +       '<span class="pick-text">' + capitalize(atSite(site)) + ' et dans les golfs du groupe</span>'
     +     '</span>'
     +     '<i class="ti ti-chevron-right pick-chevron" aria-hidden="true"></i>'
@@ -10782,7 +10906,7 @@ function screenBook(){
     +   '<button type="button" class="pick" data-nav="/book/table" data-role="table-pick">'
     +     '<span class="pick-mark">' + icon('tools-kitchen-2') + '</span>'
     +     '<span class="pick-body">'
-    +       '<span class="pick-title">Une table au clubhouse</span>'
+    +       '<span class="pick-title">Table au clubhouse</span>'
     +       '<span class="pick-text">Au déjeuner ou au dîner, après votre partie</span>'
     +     '</span>'
     +     '<i class="ti ti-chevron-right pick-chevron" aria-hidden="true"></i>'
@@ -12565,11 +12689,20 @@ function dropTableUpsell(){
 /* Retour du 22/10 : un seul champ « Payer avec » ; il ouvre la feuille
    « Avec quoi ? », comme Lydia : d'abord les comptes Resonance (e-wallet,
    carnet, crédits), puis les cartes bancaires et « Ajouter une carte ». */
+function payWhat(ctx){
+  return ctx === 'lesson' ? 'cette séance' : (ctx === 'practice' ? 'ce seau' : 'ce départ');
+}
 function payMeta(c, ctx){
   if(c.id === 'wallet'){
     return { group:'acc', icon:'wallet', name:'E-wallet golf (' + eurosCents(c.walletFrom) + ')',
-             sub:c.disabled ? 'Solde insuffisant pour ' + (ctx === 'lesson' ? 'cette séance' : 'ce départ')
-                            : 'Puis ' + eurosCents(c.walletTo) + ' après ' + (ctx === 'lesson' ? 'cette séance' : 'ce départ') };
+             sub:c.disabled ? 'Solde insuffisant pour ' + payWhat(ctx)
+                            : 'Puis ' + eurosCents(c.walletTo) + ' après ' + payWhat(ctx) };
+  }
+  /* Lot 12 (29/10) : la carte cadeau ajoutée au wallet. */
+  if(c.id === 'gift'){
+    return { group:'acc', icon:'gift', name:'Carte cadeau (' + eurosCents(c.giftFrom) + ')',
+             sub:c.disabled ? 'Solde insuffisant pour ' + payWhat(ctx)
+                            : 'Puis ' + eurosCents(c.giftTo) + ' après ' + payWhat(ctx) };
   }
   if(c.id === 'credits' && ctx === 'lesson'){
     return { group:'acc', icon:'school', name:'Carnet de cours (' + hoursLabel(c.balanceFrom) + ')',
@@ -12792,6 +12925,7 @@ function paymentSummary(){
   if(choice.id === 'card') return amount(choice.cash) + ' par carte';
   if(choice.id === 'applepay') return amount(choice.cash) + ' avec Apple Pay';
   if(choice.id === 'wallet') return amount(choice.cash) + ' avec votre e-wallet golf';
+  if(choice.id === 'gift') return amount(choice.cash) + ' avec votre carte cadeau';
   if(choice.mixed){
     return creditsLabel(creditPlan().use) + ' et ' + amount(choice.cash) + ' par carte';
   }
@@ -13216,6 +13350,7 @@ function bookNow(){
       profile().wallet = Math.max(0, (profile().wallet || 0) - grandTotal());
       logEwallet('golf', -grandTotal(), 'Réservation d\'un départ', 'Dans l\'app');
     }
+    if(d.payment === 'gift') useGift(grandTotal());
     recordBooking();
     navigate('/book/gf/confirm');
   }, PAY_DELAY);
@@ -14079,6 +14214,9 @@ function lessonPayRow(choice){
       ? 'Solde de <b>' + eurosCents(choice.walletFrom) + '</b>, insuffisant pour cette séance.'
       : 'E-wallet golf <b>' + eurosCents(choice.walletFrom) + '</b> puis <b>'
         + eurosCents(choice.walletTo) + '</b> après cette séance.') + '</span>';
+  } else if(choice.id === 'gift'){
+    lines += '<span class="payopt-line">Carte cadeau <b>' + eurosCents(choice.giftFrom) + '</b> puis <b>'
+           + eurosCents(choice.giftTo) + '</b> après cette séance.</span>';
   } else if(choice.balanceFrom !== null){
     lines += '<span class="payopt-line">Carnet de cours <b>'
            + hoursLabel(choice.balanceFrom) + '</b> puis <b>'
@@ -14488,6 +14626,7 @@ function bookLesson(){
       profile().wallet = Math.max(0, (profile().wallet || 0) - lessonTotal());
       logEwallet('golf', -lessonTotal(), 'Réservation d\'un cours', 'Dans l\'app');
     }
+    if(l.payment === 'gift') useGift(lessonTotal());
     navigate('/book/lessons/confirm');
   }, PAY_DELAY);
   return true;
@@ -14791,6 +14930,7 @@ function walletCardOne(kind, w, role, swap){
     +   '<span class="wcard-chip" aria-hidden="true"></span>'
     +   '<p class="wcard-l">' + name + '</p>'
     +   '<p class="wcard-v ewallet-value">' + eurosCents(w) + '</p>'
+    +   (back ? '' : ewalletIdleLine(kind))
     +   '<div class="wcard-foot">'
     +     '<span><span class="wcard-k">Titulaire</span><b>' + accountName() + '</b></span>'
     +     '<span class="wcard-site">' + currentSite().name + '</span>'
@@ -14808,9 +14948,14 @@ function walletCard(){
     +   walletCardOne(back, bal(back), 'back', false)
     +   walletCardOne(front, bal(front), 'front', swap)
     + '</div>'
-    + '<button type="button" class="btn is-quiet wtopup" data-act="topup-start" '
-    +   'data-role="topup-start">' + icon('plus') + 'Recharger l\'e-wallet '
-    +   (front === 'resto' ? 'restaurant' : 'golf') + '</button>'
+    + (ewalletBlocked(front)
+       ? '<button type="button" class="btn is-quiet wtopup" data-act="topup-start" data-role="topup-start" '
+         + 'disabled aria-disabled="true">' + icon('lock') + 'E-wallet '
+         + (front === 'resto' ? 'restaurant' : 'golf') + ' bloqué</button>'
+       : '<button type="button" class="btn is-quiet wtopup" data-act="topup-start" '
+         + 'data-role="topup-start">' + icon('plus') + 'Recharger l\'e-wallet '
+         + (front === 'resto' ? 'restaurant' : 'golf') + '</button>')
+    + giftSection()
     ;
 }
 
@@ -15140,6 +15285,8 @@ function topupName(kind){ return kind === 'resto' ? 'E-wallet restaurant' : 'E-w
    carte au premier plan de la pile. */
 function startTopup(kind){
   if(kind !== 'golf' && kind !== 'resto') kind = STATE.wallet.front === 'resto' ? 'resto' : 'golf';
+  /* Lot 12 : un e-wallet bloqué ne se recharge pas dans l'app (HYPOTHÈSE). */
+  if(ewalletBlocked(kind)) return false;
   STATE.wallet.topup = { kind:kind, value:null, method:mainCard() ? 'card' : 'applepay',
                          paying:false, reference:null, paid:0, mode:'preset', custom:'' };
   navigate('/wallet/topup');
@@ -15331,9 +15478,12 @@ var EWALLET_DEMO = {
       { offset:-31, label:'Location d\'une série de clubs', where:'Accueil du golf', delta:-25 },
       { offset:-52, label:'Recharge', where:'Accueil du golf', delta:100 }
     ],
+    /* Lot 12 (29/10) : HYPOTHÈSE, l'e-wallet restaurant de Claire n'a plus
+       bougé depuis 7 mois et 3 jours (dates posées à partir d'aujourd'hui) ;
+       le golf reste actif (dernier mouvement à J-12). */
     resto:[
-      { offset:-25, label:'Déjeuner au clubhouse', where:'Restaurant du clubhouse', delta:-40 },
-      { offset:-60, label:'Recharge', where:'Accueil du golf', delta:80 }
+      { offset:agoOffset(7, 3), label:'Déjeuner au clubhouse', where:'Restaurant du clubhouse', delta:-40 },
+      { offset:agoOffset(9, 12), label:'Recharge', where:'Accueil du golf', delta:80 }
     ]
   },
   externe:{ golf:[], resto:[] }
@@ -15409,8 +15559,12 @@ function screenEwallet(){
       + '</p></div>';
   return ''
     + '<div class="wstack">' + walletCardOne(kind, topupBalance(kind), 'flat', false) + '</div>'
-    + '<button type="button" class="btn is-primary wtopup" data-act="topup-for" data-value="' + kind + '" '
-    +   'data-role="ewallet-topup">' + icon('plus') + 'Recharger</button>'
+    + ewalletLastLine(kind)
+    + (ewalletBlocked(kind)
+       ? '<button type="button" class="btn is-primary wtopup" data-act="topup-for" data-value="' + kind + '" '
+         + 'data-role="ewallet-topup" disabled aria-disabled="true">' + icon('lock') + 'E-wallet bloqué</button>'
+       : '<button type="button" class="btn is-primary wtopup" data-act="topup-for" data-value="' + kind + '" '
+         + 'data-role="ewallet-topup">' + icon('plus') + 'Recharger</button>')
     + '<section class="section" data-role="ewallet-uses">'
     +   '<p class="eyebrow">Ce qu\'il règle</p>'
     +   '<div class="ilist ewallet-uses">' + uses + '</div>'
@@ -15424,7 +15578,637 @@ function screenEwallet(){
     + '<section class="section" data-role="ewallet-history">'
     +   '<p class="eyebrow">Historique</p>'
     +   body
-    + '</section>';
+    + '</section>'
+    + '<p class="pnote" data-role="ewallet-rule">' + icon('clock-pause') + '<span>'
+    +   'Un e-wallet est bloqué après ' + EWALLET_BLOCK_MONTHS + ' mois sans mouvement, ni recharge ni '
+    +   'paiement. Nous vous prévenons 30 jours puis 7 jours avant.</span></p>';
+}
+
+/* =========================================================================
+   Lot 12 — retours du 29/10/2026 (Charlotte, Bart)
+   ========================================================================= */
+
+/* --- Inactivité d'un e-wallet ---------------------------------------------
+
+   Règle validée par RGC le 29/10 : un e-wallet sans aucun mouvement (ni
+   recharge, ni paiement) pendant 12 mois est bloqué ; relances à J-30 et
+   J-7 (notifications, non maquettées). HYPOTHÈSE : la mention « Inactif
+   depuis … » apparaît à partir de 6 mois sans mouvement. HYPOTHÈSE : un
+   e-wallet bloqué ne règle plus rien et ne se recharge plus dans l'app ;
+   l'accueil du golf le réactive. */
+var EWALLET_BLOCK_MONTHS = 12, EWALLET_IDLE_SHOW = 6;
+function agoOffset(months, days){
+  var d = startOfToday();
+  d.setMonth(d.getMonth() - months);
+  d.setDate(d.getDate() - days);
+  return offsetOf(d);
+}
+function sinceParts(offset){
+  var from = dateAt(offset), to = startOfToday();
+  var m = (to.getFullYear() - from.getFullYear()) * 12 + to.getMonth() - from.getMonth();
+  var anchor = new Date(from.getTime()); anchor.setMonth(from.getMonth() + m);
+  if(anchor.getTime() > to.getTime()){
+    m -= 1;
+    anchor = new Date(from.getTime()); anchor.setMonth(from.getMonth() + m);
+  }
+  return { m:m, d:Math.round((to.getTime() - anchor.getTime()) / 86400000) };
+}
+function sinceText(s){
+  var mo = s.m > 0 ? s.m + ' mois' : '';
+  var da = s.d > 0 ? s.d + (s.d > 1 ? ' jours' : ' jour') : '';
+  if(mo && da) return mo + ' et ' + da;
+  return mo || da || 'aujourd\'hui';
+}
+function ewalletIdle(kind){
+  var hist = ewalletHistory(kind);
+  if(!hist.length) return null;
+  var last = null;
+  for(var i=0;i<hist.length;i++){
+    var o = hist[i].m.offset || 0;
+    if(last === null || o > last) last = o;
+  }
+  var s = sinceParts(last);
+  var lock = dateAt(last); lock.setMonth(lock.getMonth() + EWALLET_BLOCK_MONTHS);
+  var lockOff = offsetOf(lock);
+  return { last:last, since:s, lockOff:lockOff, blocked:lockOff <= 0,
+           soon:lockOff > 0 && lockOff <= 30, idle:s.m >= EWALLET_IDLE_SHOW };
+}
+function ewalletBlocked(kind){
+  var i = ewalletIdle(kind);
+  return !!(i && i.blocked);
+}
+/* Sur la carte : rien tant que l'e-wallet sert ; « Inactif depuis … » au-delà
+   de six mois ; « Bloqué » passé douze. */
+function ewalletIdleLine(kind){
+  var i = ewalletIdle(kind);
+  if(!i) return '';
+  if(i.blocked){
+    return '<p class="wcard-idle is-blocked" data-role="ewallet-idle">Bloqué depuis le '
+         + dmy(i.lockOff) + ', après ' + EWALLET_BLOCK_MONTHS + ' mois sans mouvement</p>';
+  }
+  if(!i.idle) return '';
+  return '<p class="wcard-idle' + (i.soon ? ' is-soon' : '') + '" data-role="ewallet-idle">Inactif depuis '
+       + sinceText(i.since) + (i.soon ? ' &middot; bloqué le ' + dmy(i.lockOff) : '') + '</p>';
+}
+/* Sous la carte, dans le détail : le dernier mouvement, et jusqu'à quand il
+   reste actif quand il dort. */
+function ewalletLastLine(kind){
+  var i = ewalletIdle(kind);
+  if(!i) return '';
+  if(i.blocked){
+    return '<p class="ewallet-last is-blocked" data-role="ewallet-last">Dernier mouvement le '
+         + dmy(i.last) + '. Pour le réactiver, adressez-vous à l\'accueil du golf.</p>';
+  }
+  return '<p class="ewallet-last' + (i.soon ? ' is-soon' : '') + '" data-role="ewallet-last">Dernier mouvement le '
+       + dmy(i.last)
+       + (i.idle ? '. Une recharge ou un paiement avant le ' + dmy(i.lockOff) + ' le garde actif.' : '.')
+       + '</p>';
+}
+
+/* --- Cartes cadeaux --------------------------------------------------------
+
+   Retour du 29/10 : le joueur ajoute une carte cadeau à son wallet en
+   saisissant son code ; elle y apparaît avec son solde et règle un départ,
+   un cours ou un seau au practice. Libellé « Carte cadeau », jamais « code
+   promo ». Code de démonstration repris du prototype des bons cadeaux
+   (boutique_cadeaux, §6) : RGC-7KQ2-M9XA, carte de 150 € dont il reste
+   60 €. Tout autre code est inconnu. HYPOTHÈSE : pas de paiement mixte
+   carte cadeau + autre moyen ; la carte cadeau ne règle pas le restaurant. */
+/* Lot 12b (30/10) : les coffrets s'ajoutent aussi au wallet. Les cinq bons
+   remarquables du prototype des bons cadeaux (boutique_cadeaux/bo,
+   remarkableBons ; achat, GC_TEST_BONS), même code, même offre, même prix,
+   même statut, même date d'achat, même nom sur le bon. Validité : 12 mois
+   après l'achat (validUntil du back-office). HYPOTHÈSE : modèle du bon
+   (non stocké côté back-office) = « Encre et or » pour la carte et les
+   coffrets sans photo, « Links » (photo de La Mer) pour les coffrets golf. */
+var GIFT_VALIDITY_MONTHS = 12, GIFT_SOON_DAYS = 30;
+var GIFT_ONCE = 'À utiliser en une seule fois : toutes les prestations le même jour. '
+              + 'Une prestation non utilisée est perdue.';
+var GIFT_ETABS = { TQT:'Le Touquet Golf Resort', SPA:'Spa La Bégude, Opio Valbonne',
+                   VICTOIRE:'Famille Victoire' };
+var GIFT_CARDS = {
+  'RGC-7KQ2-M9XA': { type:'carte', title:'Carte cadeau Resonance', init:150, balance:60,
+                     bought:[2025, 12, 12], to:'Marc Dumas', status:'partiel', model:'encre' },
+  'RGC-3HTP-W4CZ': { type:'coffret', title:'Golf & déjeuner', price:160,
+                     bought:[2026, 9, 20], to:'Juliette Arnaud', status:'emis', model:'links',
+                     site:'TQT', course:0,
+                     lines:[ { p:'Green fee 18 trous · La Mer', etab:'TQT', q:1, gf:true },
+                             { p:'Déjeuner au club-house', etab:'TQT', q:1 } ] },
+  'RGC-9VNE-2RLD': { type:'coffret', title:'Soin signature 60 min', price:95,
+                     bought:[2025, 10, 16], to:'Anne Lambert', status:'expire', model:'encre',
+                     lines:[ { p:'Soin signature 60 min', etab:'SPA', q:1 } ] },
+  'RGC-5MBA-8QJF': { type:'coffret', title:'Menu dégustation pour deux', price:140,
+                     bought:[2026, 2, 10], to:'Pauline Girard', status:'consomme', model:'encre',
+                     lines:[ { p:'Menu dégustation × 2', etab:'VICTOIRE', q:1 } ] },
+  'RGC-4XWK-6PTS': { type:'coffret', title:'Green fee 18 trous, La Mer', price:120,
+                     bought:[2026, 10, 5], to:'Marc Dumas', status:'emis', model:'links',
+                     site:'TQT', course:0,
+                     lines:[ { p:'Green fee 18 trous · La Mer', etab:'TQT', q:1, gf:true } ] }
+};
+function giftPathCode(path){
+  var m = /^\/wallet\/gift\/(RGC-[A-Z0-9]{4}-[A-Z0-9]{4})$/.exec(String(path || ''));
+  return m && GIFT_CARDS[m[1]] ? m[1] : null;
+}
+function giftEntry(code){
+  var g = STATE.wallet.gifts;
+  for(var i=0;i<g.length;i++){ if(g[i].code === code) return g[i]; }
+  return null;
+}
+function giftValidUntil(code){
+  var b = GIFT_CARDS[code].bought;
+  var d = new Date(b[0], b[1] - 1, b[2]);
+  d.setMonth(d.getMonth() + GIFT_VALIDITY_MONTHS);
+  return d;
+}
+function giftUntilText(code){ return dmy(offsetOf(giftValidUntil(code))); }
+/* ok · soon (moins de 30 jours) · used (consommé) · expired. Une carte
+   cadeau est consommée quand son solde tombe à 0. */
+function giftState(code, balance){
+  var m = GIFT_CARDS[code];
+  var left = offsetOf(giftValidUntil(code));
+  if(m.status === 'consomme' || (m.type === 'carte' && balance !== undefined && balance <= 0)) return 'used';
+  if(m.status === 'expire' || left < 0) return 'expired';
+  if(left < GIFT_SOON_DAYS) return 'soon';
+  return 'ok';
+}
+function giftStateOf(g){ return giftState(g.code, g.balance); }
+function giftEtabs(code){
+  var m = GIFT_CARDS[code], seen = {}, out = [];
+  for(var i=0;i<(m.lines || []).length;i++){
+    var e = m.lines[i].etab;
+    if(!seen[e]){ seen[e] = true; out.push(GIFT_ETABS[e] || e); }
+  }
+  return out.join(' et ');
+}
+function giftHasGreenfee(code){
+  var l = GIFT_CARDS[code].lines || [];
+  for(var i=0;i<l.length;i++){ if(l[i].gf) return true; }
+  return false;
+}
+function normalizeGiftCode(raw){
+  var s = String(raw || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
+  if(s.indexOf('RGC') === 0) s = s.slice(3);
+  if(!/^[A-Z0-9]{8}$/.test(s)) return null;
+  return 'RGC-' + s.slice(0, 4) + '-' + s.slice(4);
+}
+function giftBest(){
+  /* Lot 12b : seule une carte cadeau valable règle un achat ; un coffret
+     n'est jamais un moyen de paiement. */
+  var best = null, g = STATE.wallet.gifts;
+  for(var i=0;i<g.length;i++){
+    if(g[i].type === 'coffret') continue;
+    var s = giftStateOf(g[i]);
+    if(s === 'expired' || s === 'used') continue;
+    if(!best || g[i].balance > best.balance) best = g[i];
+  }
+  return best;
+}
+function giftChoice(total){
+  var g = giftBest();
+  if(!g || g.balance <= 0 || !total) return null;
+  return { id:'gift', icon:'gift', title:'Payer ' + amount(total) + ' avec votre carte cadeau',
+           giftFrom:g.balance, giftTo:g.balance - total, disabled:g.balance < total, cash:total };
+}
+function useGift(total){
+  var g = giftBest();
+  if(g) g.balance = Math.max(0, g.balance - total);
+}
+function giftMask(code){ return 'Carte cadeau •••• ' + code.slice(-4); }
+/* Lot 12b : chaque bon du wallet est un bouton vers sa fiche. La carte
+   cadeau montre son solde, le coffret son nom. */
+function giftStateShort(g){
+  var s = giftStateOf(g), coffret = g.type === 'coffret';
+  if(s === 'used') return coffret ? 'Consommé' : 'Consommée';
+  if(s === 'expired') return (coffret ? 'Expiré le ' : 'Expirée le ') + giftUntilText(g.code);
+  if(s === 'soon') return 'Expire dans ' + daysText(offsetOf(giftValidUntil(g.code)));
+  return 'Valable jusqu\'au ' + giftUntilText(g.code);
+}
+function giftRow(g){
+  var m = GIFT_CARDS[g.code], s = giftStateOf(g);
+  if(g.type === 'coffret'){
+    return '<button type="button" class="irow" data-act="gift-open" data-value="' + g.code + '" data-role="gift-box">'
+         + '<span class="irow-ic gift-ic">' + icon('package') + '</span>'
+         + '<span class="irow-body"><span class="irow-t">' + m.title + '</span>'
+         + '<span class="irow-s" data-role="gift-state">Coffret &middot; ' + giftStateShort(g) + '</span></span>'
+         + icon('chevron-right') + '</button>';
+  }
+  return '<button type="button" class="irow" data-act="gift-open" data-value="' + g.code + '" data-role="gift-card">'
+       + '<span class="irow-ic gift-ic">' + icon('gift') + '</span>'
+       + '<span class="irow-body"><span class="irow-t">' + giftMask(g.code) + '</span>'
+       + '<span class="irow-s" data-role="gift-state">'
+       +   (s === 'ok' ? 'Départs, cours et practice &middot; sur ' + amount(g.init) : giftStateShort(g))
+       + '</span></span>'
+       + '<span class="irow-v" data-role="gift-balance">' + eurosCents(g.balance) + '</span>'
+       + icon('chevron-right') + '</button>';
+}
+function giftSection(){
+  var g = STATE.wallet.gifts, rows = '';
+  for(var i=0;i<g.length;i++) rows += giftRow(g[i]);
+  rows += '<button type="button" class="irow" data-act="gift-start" data-role="gift-add">'
+        + '<span class="irow-ic">' + icon('plus') + '</span>'
+        + '<span class="irow-body"><span class="irow-t">Ajouter une carte cadeau ou un coffret</span>'
+        + '<span class="irow-s">Saisissez le code reçu pour l\'utiliser dans l\'app</span></span>'
+        + icon('chevron-right') + '</button>';
+  return '<section class="section" data-role="gifts"><p class="eyebrow">Cartes cadeaux et coffrets</p>'
+       + '<div class="ilist">' + rows + '</div></section>';
+}
+function openGiftCard(code){
+  if(!giftEntry(code)) return false;
+  navigate('/wallet/gift/' + code);
+  return true;
+}
+/* Réserver la prestation d'un coffret qui comprend un green fee : le
+   tunnel du départ, ouvert sur le golf du coffret. HYPOTHÈSE : le tunnel ne
+   déduit pas encore le coffret ; il se présente à l'accueil le jour même. */
+function startGiftBooking(code){
+  var m = GIFT_CARDS[code];
+  if(!m || !giftEntry(code) || !giftHasGreenfee(code)) return false;
+  var s = giftState(code);
+  if(s === 'used' || s === 'expired') return false;
+  clearDraft();
+  STATE.draft.siteCode = siteByCode(m.site) ? m.site : STATE.siteCode;
+  STATE.draft.courseIndex = m.course || 0;
+  navigate('/book/gf/date');
+  return true;
+}
+
+/* Le bon, comme à l'achat (gcBonHtml, boutique_cadeaux/achat) : modèle,
+   type, offre, montant ou établissement, nom sur le bon, QR et code. */
+function giftBon(g){
+  var m = GIFT_CARDS[g.code], coffret = m.type === 'coffret', s = giftStateOf(g);
+  var site = m.site ? siteByCode(m.site) : null;
+  return '<div class="gbon is-' + m.model + (s === 'used' || s === 'expired' ? ' is-off' : '') + '" '
+       +   'data-role="gift-bon" data-model="' + m.model + '">'
+       +   (m.model === 'links' && site ? photo(site, m.course || 0, 'gbon-' + g.code) : '')
+       +   '<p class="gbon-top"><span>Resonance Golf Collection</span><span>' + (coffret ? 'Coffret' : 'Carte cadeau') + '</span></p>'
+       +   '<p class="gbon-t">' + m.title + '</p>'
+       +   (coffret ? '' : '<p class="gbon-v">' + amount(m.init) + '</p>')
+       +   (coffret ? '<p class="gbon-e">Valable à ' + giftEtabs(g.code) + '</p>'
+                    + '<p class="gbon-e">À utiliser en une seule fois</p>' : '')
+       +   '<p class="gbon-for">Pour ' + m.to + '</p>'
+       +   '<div class="gbon-foot"><span class="gbon-qr">' + qrSvg(g.code) + '</span>'
+       +     '<span>Code <b data-role="gift-code">' + g.code + '</b>'
+       +     '<small>Valable 12 mois, jusqu\'au ' + giftUntilText(g.code) + '</small></span></div>'
+       + '</div>';
+}
+function giftValidLine(g){
+  var s = giftStateOf(g), coffret = g.type === 'coffret', until = giftUntilText(g.code);
+  var chip, txt;
+  if(s === 'used'){
+    chip = '<span class="chip is-void">' + (coffret ? 'Consommé' : 'Consommée') + '</span>';
+    txt = coffret ? 'Le coffret a été utilisé.' : 'Le solde est épuisé.';
+  } else if(s === 'expired'){
+    chip = '<span class="chip is-void">' + (coffret ? 'Expiré' : 'Expirée') + '</span>';
+    txt = 'Expiré le ' + until + '.';
+  } else if(s === 'soon'){
+    chip = '<span class="chip is-attention">Expire bientôt</span>';
+    txt = 'Valable jusqu\'au ' + until + ', encore ' + daysText(offsetOf(giftValidUntil(g.code))) + '.';
+  } else {
+    chip = '<span class="chip is-positive">Valable</span>';
+    txt = 'Valable jusqu\'au ' + until + '.';
+  }
+  return '<p class="gift-valid' + (s === 'soon' ? ' is-soon' : (s === 'used' || s === 'expired' ? ' is-off' : '')) + '" '
+       + 'data-role="gift-valid" data-state="' + s + '">' + chip + '<span>' + txt + '</span></p>';
+}
+function screenGiftCard(code){
+  var g = giftEntry(code);
+  if(!g) return screenNotFound();
+  var m = GIFT_CARDS[code], coffret = m.type === 'coffret', s = giftStateOf(g);
+  var off = (s === 'used' || s === 'expired');
+  var html = giftBon(g) + giftValidLine(g);
+
+  if(coffret){
+    var rows = '';
+    for(var i=0;i<m.lines.length;i++){
+      var l = m.lines[i];
+      rows += accessRow(l.gf ? 'golf' : 'tools-kitchen-2', l.p + (l.q > 1 ? ' &times; ' + l.q : ''),
+                        GIFT_ETABS[l.etab] || l.etab, null);
+    }
+    html += '<section class="section" data-role="gift-lines"><p class="eyebrow">Ce que comprend le coffret</p>'
+          + '<div class="ilist">' + rows + '</div>'
+          + '<p class="pnote" data-role="gift-once">' + icon('info-circle') + '<span>' + GIFT_ONCE + '</span></p>'
+          + '</section>';
+  } else {
+    var pct = m.init ? Math.round(100 * g.balance / g.init) : 0;
+    html += '<div class="gfdue gift-solde" data-role="gift-solde">'
+          +   '<p class="gfdue-l">Solde restant</p>'
+          +   '<p class="gfdue-v">' + eurosCents(g.balance) + '</p>'
+          +   '<span class="gfdue-bar" aria-hidden="true"><i style="width:' + pct + '%"></i></span>'
+          +   '<p class="gfdue-f"><span>sur <b>' + amount(g.init) + '</b> au départ</span>'
+          +     '<span>Utilisable en plusieurs fois</span></p>'
+          + '</div>';
+  }
+
+  if(off){
+    html += '<p class="pnote gift-off" data-role="gift-off">' + icon('alert-circle') + '<span>'
+          + (s === 'used'
+             ? (coffret ? 'Toutes les prestations de ce coffret ont été servies : il ne peut plus être utilisé.'
+                        : 'Cette carte cadeau a été utilisée jusqu\'au dernier euro : elle ne règle plus rien.')
+             : (coffret ? 'Ce coffret a expiré le ' : 'Cette carte cadeau a expiré le ') + giftUntilText(code)
+               + ' : ' + (coffret ? 'il' : 'elle') + ' ne peut plus être utilisé' + (coffret ? '' : 'e')
+               + '. L\'accueil du golf peut étudier une prolongation.')
+          + '</span></p>';
+    return html;
+  }
+
+  html += '<section class="section" data-role="gift-how"><p class="eyebrow">Comment l\'utiliser</p><div class="ilist">';
+  if(coffret){
+    if(giftHasGreenfee(code)){
+      html += accessRow('calendar-plus', 'Réservez votre départ', 'Dans l\'app, sur ' + giftEtabs(code), null);
+    }
+    html += accessRow('qrcode', 'Présentez ce QR code à l\'accueil', 'Le jour venu : toutes les prestations du coffret sont réglées', null);
+  } else {
+    html += accessRow('golf', 'Au paiement d\'un départ', 'Choisissez « Carte cadeau » dans « Avec quoi ? »', null)
+          + accessRow('school', 'Au paiement d\'un cours', 'Le prix du cours est déduit du solde', null)
+          + accessRow('bucket', 'Au practice', 'Pour un seau à l\'unité', null)
+          + accessRow('building-store', 'À l\'accueil du golf', 'Présentez le QR code du bon', null);
+  }
+  html += '</div></section>';
+  if(coffret && giftHasGreenfee(code)){
+    html += '<div class="stepfoot" data-role="stepfoot">'
+          +   '<button type="button" class="btn is-primary" data-act="gift-book" data-value="' + code + '">Réserver le départ</button>'
+          + '</div>';
+  }
+  return html;
+}
+function startGift(){
+  STATE.wallet.gift = { code:'', error:null, done:null };
+  navigate('/wallet/gift');
+  return true;
+}
+function setGiftCode(v){ STATE.wallet.gift.code = String(v || ''); return true; }
+function addGiftCard(raw){
+  var f = STATE.wallet.gift;
+  if(raw !== undefined && raw !== null) f.code = String(raw);
+  var typed = String(f.code || '').trim();
+  var code = normalizeGiftCode(typed);
+  var known = false;
+  for(var i=0;i<STATE.wallet.gifts.length;i++){ if(STATE.wallet.gifts[i].code === code) known = true; }
+  f.error = null;
+  if(!typed) f.error = 'Saisissez le code de la carte cadeau, au format RGC-XXXX-XXXX.';
+  else if(!code) f.error = 'Ce code n\'a pas le bon format : il compte huit lettres ou chiffres après RGC, au format RGC-XXXX-XXXX.';
+  else if(known) f.error = (GIFT_CARDS[code] && GIFT_CARDS[code].type === 'coffret')
+    ? 'Ce coffret est déjà dans votre wallet.' : 'Cette carte cadeau est déjà dans votre wallet.';
+  else if(!GIFT_CARDS[code]) f.error = 'Ce code ne correspond à aucune carte cadeau ni à aucun coffret. Vérifiez-le sur le bon ou dans l\'e-mail reçu, puis saisissez-le de nouveau.';
+  else {
+    /* Lot 12b : un bon consommé ou expiré ne s'ajoute pas. */
+    var gm = GIFT_CARDS[code], gs = giftState(code, gm.balance), box = gm.type === 'coffret';
+    if(gs === 'used'){
+      f.error = box
+        ? 'Ce coffret a déjà été utilisé : ses prestations ont été servies, il ne peut plus être ajouté à votre wallet.'
+        : 'Cette carte cadeau a déjà été utilisée jusqu\'au dernier euro : elle ne peut plus être ajoutée à votre wallet.';
+    } else if(gs === 'expired'){
+      f.error = (box ? 'Ce coffret a expiré le ' : 'Cette carte cadeau a expiré le ') + giftUntilText(code)
+              + ' : ' + (box ? 'il ne peut plus être ajouté ni utilisé' : 'elle ne peut plus être ajoutée ni utilisée')
+              + '. L\'accueil du golf peut étudier une prolongation.';
+    }
+  }
+  if(f.error){ refresh(); return false; }
+  var gmeta = GIFT_CARDS[code];
+  STATE.wallet.gifts.push(gmeta.type === 'coffret'
+    ? { code:code, type:'coffret', init:null, balance:null }
+    : { code:code, type:'carte', init:gmeta.init, balance:gmeta.balance });
+  f.done = code;
+  f.code = '';
+  refresh();
+  return true;
+}
+function finishGift(){
+  STATE.wallet.gift = { code:'', error:null, done:null };
+  setRoot('/wallet');
+  return true;
+}
+function screenGift(){
+  var f = STATE.wallet.gift;
+  if(f.done){
+    var g = null;
+    for(var i=0;i<STATE.wallet.gifts.length;i++){ if(STATE.wallet.gifts[i].code === f.done) g = STATE.wallet.gifts[i]; }
+    if(g && g.type === 'coffret'){
+      var cm = GIFT_CARDS[g.code], what = [];
+      for(var k=0;k<cm.lines.length;k++) what.push(cm.lines[k].p);
+      return ''
+        + '<div class="confirm-mark">' + icon('circle-check') + '</div>'
+        + '<h2 class="confirm-title">Coffret ajouté</h2>'
+        + '<ul class="spec" data-role="gift-done">'
+        +   '<li>Coffret <b>' + cm.title + '</b></li>'
+        +   '<li>Comprend <b>' + what.join(', ') + '</b></li>'
+        +   '<li>Valable jusqu\'au <b>' + giftUntilText(g.code) + '</b></li>'
+        + '</ul>'
+        + '<p class="pnote">' + icon('info-circle') + '<span>' + GIFT_ONCE + '</span></p>'
+        + '<button type="button" class="btn is-primary" data-act="gift-finish">Revenir au wallet</button>';
+    }
+    return ''
+      + '<div class="confirm-mark">' + icon('circle-check') + '</div>'
+      + '<h2 class="confirm-title">Carte cadeau ajoutée</h2>'
+      + '<ul class="spec" data-role="gift-done">'
+      +   '<li>Carte <b>' + giftMask(f.done) + '</b></li>'
+      +   '<li>Solde disponible <b>' + eurosCents(g ? g.balance : 0) + '</b></li>'
+      +   '<li>Elle règle <b>vos départs, vos cours et le practice</b></li>'
+      + '</ul>'
+      + '<button type="button" class="btn is-primary" data-act="gift-finish">Revenir au wallet</button>';
+  }
+  return ''
+    + '<div class="stepbody">'
+    +   '<h2 class="screen-title">Ajouter une carte cadeau ou un coffret</h2>'
+    +   '<p class="screen-text">Le code figure sur le bon ou dans l\'e-mail reçu. '
+    +     'Une fois ajouté au wallet, une carte cadeau montre son solde, un coffret ses prestations.</p>'
+    +   '<section class="section gift-form">'
+    +     '<label class="eyebrow" for="gift-code">Code du bon</label>'
+    +     '<input class="input" id="gift-code" type="text" autocomplete="off" autocapitalize="characters" '
+    +       'spellcheck="false" maxlength="16" data-gift="code" placeholder="RGC-XXXX-XXXX" '
+    +       'value="' + escapeAttr(f.code || '') + '">'
+    +     (f.error ? '<p class="form-error" data-role="gift-error">' + icon('alert-circle')
+                   + '<span>' + f.error + '</span></p>' : '')
+    +   '</section>'
+    + '</div>'
+    + '<div class="stepfoot" data-role="stepfoot">'
+    +   '<button type="button" class="btn is-primary" data-act="gift-add-go">Ajouter au wallet</button>'
+    + '</div>';
+}
+
+/* --- Practice : un seau de balles seul, sans horaire ------------------------
+
+   Retour du 29/10. Le seau se prend sur le carnet de seaux s'il en reste
+   (comme l'option du départ, lot 10) ; sinon il s'achète à l'unité, au prix
+   de l'option « Seau de balles » (5 €, booking engine v3). Le seau est
+   chargé sur le compte : le QR code du joueur le délivre à la machine à
+   balles. HYPOTHÈSE : pas de date limite de retrait ; un seau à la fois. */
+function bucketPrice(){
+  for(var i=0;i<GF_OPTIONS.length;i++){ if(GF_OPTIONS[i].id === 'bucket') return GF_OPTIONS[i].price; }
+  return 5;
+}
+function practiceFromPot(){ return (potValue('buckets') || 0) > 0; }
+function practicePickText(){
+  var n = potValue('buckets') || 0;
+  return n > 0 ? 'Un seau de balles, pris sur votre carnet (' + potAmountLabel('buckets', n) + ')'
+               : 'Un seau de balles à l\'unité, sans horaire';
+}
+function clearPractice(){
+  STATE.wallet.practice = { method:null, sheet:null, paying:false, reference:null, paid:0, used:null };
+}
+function startPractice(){
+  clearPractice();
+  navigate('/book/practice');
+  return true;
+}
+function practiceChoices(){
+  if(practiceFromPot()) return [];
+  var price = bucketPrice(), out = [];
+  var w = profile().wallet || 0;
+  if(w > 0 && !ewalletBlocked('golf')){
+    out.push({ id:'wallet', walletFrom:w, walletTo:w - price, disabled:w < price, cash:price });
+  }
+  var gc = giftChoice(price);
+  if(gc) out.push(gc);
+  out.push({ id:'card', cash:price });
+  out.push({ id:'applepay', cash:price });
+  return out;
+}
+function practiceChosen(){
+  var list = practiceChoices();
+  for(var i=0;i<list.length;i++){ if(list[i].id === STATE.wallet.practice.method) return list[i]; }
+  return null;
+}
+function pickPracticePay(id){
+  var list = practiceChoices();
+  for(var i=0;i<list.length;i++){
+    if(list[i].id !== id || list[i].disabled) continue;
+    STATE.wallet.practice.method = id;
+    STATE.wallet.practice.sheet = null;
+    refresh();
+    return true;
+  }
+  return false;
+}
+function closePracticeSheet(){
+  STATE.wallet.practice.sheet = null;
+  refresh();
+  return true;
+}
+function screenPractice(){
+  var p = STATE.wallet.practice;
+  var site = currentSite();
+  var pot = practiceFromPot();
+  var n = potValue('buckets') || 0;
+  var chosen = practiceChosen();
+  var body = pot
+    ? '<p class="paylead" data-role="practice-pot">' + icon('ticket')
+      + '<span><b>Ce seau est pris sur votre carnet.</b> '
+      + capitalize(potAmountLabel('buckets', n)) + ' puis ' + potAmountLabel('buckets', n - 1).replace(/^0 seau$/, 'aucun')
+      + ' après ce seau.</span></p>'
+    : '<p class="paylead" data-role="practice-unit">' + icon('ticket-off')
+      + '<span><b>Aucun seau dans votre carnet.</b> Ce seau se règle à l\'unité, '
+      + amount(bucketPrice()) + '.</span></p>'
+      + '<section class="section"><p class="eyebrow">Paiement</p>'
+      + paySelector(chosen, 'practice', 'practice-pay-open') + '</section>'
+      + '<button type="button" class="btn is-quiet" data-act="pot-buy" data-value="buckets" data-role="practice-buy">'
+      + 'Acheter un carnet de seaux</button>';
+  var ready = pot || !!chosen;
+  return ''
+    + '<div class="stepbody">'
+    +   '<h2 class="screen-title">Un seau au practice</h2>'
+    +   '<p class="screen-text">Sans horaire : le seau est chargé sur votre compte, vous le retirez '
+    +     'à la machine à balles ' + atSite(site) + ' avec votre QR code.</p>'
+    +   '<div class="ilist practice-card"><div class="irow">'
+    +     '<span class="irow-ic">' + icon('bucket') + '</span>'
+    +     '<span class="irow-body"><span class="irow-t">Seau de balles</span>'
+    +     '<span class="irow-s">Practice ' + atSite(site) + '</span></span>'
+    +     '<span class="irow-v" data-role="practice-price">' + (pot ? '1 seau du carnet' : amount(bucketPrice())) + '</span>'
+    +   '</div></div>'
+    +   '<section class="section">' + body + '</section>'
+    + '</div>'
+    + (p.sheet === 'pay' ? paySheet(practiceChoices(), p.method, 'practice', 'practice-pay-pick') : '')
+    + '<div class="stepfoot" data-role="stepfoot">'
+    +   '<p class="total"><span class="total-label">Total</span>'
+    +     '<span class="total-value" data-role="total">' + (pot ? 'Rien à payer' : amount(bucketPrice())) + '</span></p>'
+    +   (ready ? '' : '<p class="total-note">Choisissez un moyen de paiement pour continuer.</p>')
+    +   primaryButton('practice-book', 'Réserver ce seau', !ready, p.paying)
+    + '</div>';
+}
+function bookPractice(){
+  var p = STATE.wallet.practice;
+  if(p.paying) return false;
+  var pot = practiceFromPot();
+  if(!pot && !practiceChosen()) return false;
+  p.paying = true;
+  refresh();
+  window.setTimeout(function(){
+    p.paying = false;
+    p.reference = 'PRA-' + (Math.floor(draw('pra' + STATE.persona + STATE.siteCode + STATE.wallet.ready) * 90000) + 10000);
+    var price = bucketPrice();
+    if(pot){
+      STATE.wallet.moves.push({ pot:'buckets', delta:-1, site:currentSite(), kind:'consommation' });
+      p.used = 'pot'; p.paid = 0;
+    } else {
+      p.used = p.method; p.paid = price;
+      if(p.method === 'wallet'){
+        profile().wallet = Math.max(0, (profile().wallet || 0) - price);
+        logEwallet('golf', -price, 'Seau de balles au practice', 'Dans l\'app');
+      }
+      if(p.method === 'gift') useGift(price);
+    }
+    STATE.wallet.ready += 1;
+    navigate('/book/practice/confirm');
+  }, PAY_DELAY);
+  return true;
+}
+function practicePaidText(p){
+  if(p.used === 'pot') return '1 seau de votre carnet &middot; reste ' + potAmountLabel('buckets', potValue('buckets') || 0).replace(/^0 seau$/, 'aucun');
+  if(p.used === 'wallet') return amount(p.paid) + ' avec votre e-wallet golf';
+  if(p.used === 'gift') return amount(p.paid) + ' avec votre carte cadeau';
+  if(p.used === 'applepay') return amount(p.paid) + ' avec Apple Pay';
+  return amount(p.paid) + ' par carte';
+}
+function myQrSeed(){ return licenceNumber() || accountName(); }
+function qrBig(){
+  return '<div class="qrbig" data-role="qr-big">'
+       +   '<span class="qrbig-code">' + qrSvg(myQrSeed()) + '</span>'
+       +   '<p class="qrbig-name">' + accountName() + '</p>'
+       +   '<p class="qrbig-sub">' + (hasLicence() ? 'Licence n° ' + licenceNumber() : 'Compte Resonance Golf Collection') + '</p>'
+       + '</div>';
+}
+function screenPracticeConfirm(){
+  var p = STATE.wallet.practice;
+  if(!p.reference) return screenNotFound();
+  return ''
+    + '<div class="confirm-mark">' + icon('circle-check') + '</div>'
+    + '<h2 class="confirm-title">Seau réservé</h2>'
+    + '<p class="confirm-ref">Numéro <b>' + p.reference + '</b></p>'
+    + '<p class="screen-text" data-role="practice-how">Présentez ce QR code à la machine à balles du practice : '
+    +   'le seau est chargé sur votre compte. Il reste aussi dans Mon QR code, sur l\'accueil.</p>'
+    + qrBig()
+    + '<ul class="spec" data-role="practice-confirm">'
+    +   '<li>Practice <b>' + currentSite().name + '</b></li>'
+    +   '<li>Seau <b>1 seau de balles</b></li>'
+    +   '<li>Réglé <b>' + practicePaidText(p) + '</b></li>'
+    + '</ul>'
+    + '<button type="button" class="btn is-primary" data-act="practice-finish">Revenir à l\'accueil</button>';
+}
+function finishPractice(){
+  clearPractice();
+  setRoot('/home');
+  return true;
+}
+
+/* --- Mon QR code (ex-« Ma carte ») ------------------------------------------
+
+   Retour du 29/10 : « Ma carte » prêtait à confusion (carte bancaire, carte
+   d'abonnement). Le QR code s'affiche en grand dès l'ouverture, sans
+   autre geste : machine à balles, CaddyMaster, starter. */
+function screenMyQr(){
+  var r = STATE.wallet.ready;
+  return ''
+    + qrBig()
+    + (r ? '<p class="paylead" data-role="qr-ready">' + icon('bucket') + '<span><b>'
+           + (r > 1 ? r + ' seaux prêts' : '1 seau prêt') + ' à retirer.</b> '
+           + 'Présentez ce code à la machine à balles du practice.</span></p>' : '')
+    + '<section class="section"><p class="eyebrow">Où le présenter</p><div class="ilist">'
+    +   accessRow('bucket', 'Machine à balles', 'Vos seaux du carnet ou réservés dans l\'app', null)
+    +   accessRow('lock-open', 'CaddyMaster', 'Votre casier et votre matériel', null)
+    +   accessRow('flag', 'Accueil et starter', 'À votre arrivée au golf', null)
+    + '</div></section>'
+    + '<p class="pnote">' + icon('sun') + '<span>Montez la luminosité de l\'écran si le lecteur '
+    +   'ne lit pas le code du premier coup.</span></p>';
 }
 
 function setWalletFront(kind){
@@ -16457,7 +17241,10 @@ function memberCard(bare){
     +     '<p>' + (hasLicence()
             ? 'Licence n\u00b0 ' + licenceNumber() + '<br>Index ' + licenceIndex()
             : 'Vos départs sont calculés au tarif visiteur') + '</p>'
-    +     '<span class="mcard-qr">' + qrSvg(licenceNumber() || accountName()) + '</span>'
+    /* Lot 12b (30/10) : le QR de la carte s'ouvre en plein écran, la même
+       vue que depuis l'accueil (/qr). */
+    +     '<button type="button" class="mcard-qr" data-nav="/qr" data-role="mcard-qr" '
+    +       'aria-label="Afficher mon QR code">' + qrSvg(myQrSeed()) + '</button>'
     +   '</div>'
     + '</div>';
 }
@@ -17877,6 +18664,7 @@ function closeAnySheet(){
   /* La croix des feuilles du tunnel de cours (filtres, annulation) passait
      par la feuille du green-fee et ne fermait rien. */
   if(STATE.lesson.sheet) return closeLessonSheet();
+  if(STATE.wallet.practice && STATE.wallet.practice.sheet) return closePracticeSheet();
   return closeSheet();
 }
 
@@ -18454,8 +19242,9 @@ function setBookTab(id){
 function openGfBooking(id){
   if(!gfViewById(id)) return false;
   STATE.account.openGf = id;
-  /* Retour du 22/10 : quand tout est réglé, La partie passe en premier. */
-  STATE.account.gfTab = hubOf(gfViewById(id)).due ? 'pay' : 'game';
+  /* Lot 12 (29/10) : ordre fixe Départ · Joueurs · Paiement, Départ ouvert
+     par défaut. Le reste à payer reste lisible sur l'onglet Paiement. */
+  STATE.account.gfTab = 'game';
   navigate('/bookings/gf');
   return true;
 }
@@ -18470,7 +19259,8 @@ function setGfTab(id){
 
    Retour d'Alexie du 22/10 : la carte du prochain départ ouvre les infos de
    la réservation, sur le modèle du lien de paiement (paiement/index.html) :
-   trois onglets, Paiement, Joueurs, La partie.
+   trois onglets, Paiement, Joueurs, La partie (lot 12 : Départ, Joueurs,
+   Paiement).
 
    Chaque joueur porte son montant et son état : réglé, lien envoyé, à
    régler à l'accueil. Départ de Claire : celui du booking engine v3 (La
@@ -18688,7 +19478,7 @@ function gfbGame(v, h){
   return ''
     + '<div class="qrcard" data-role="gfb-qr">'
     +   '<span class="mcard-qr">' + qrSvg(v.ref) + '</span>'
-    +   '<div><p class="qrcard-t">QR code de la partie</p>'
+    +   '<div><p class="qrcard-t">QR code du départ</p>'
     +     '<p class="qrcard-s">À présenter au starter &middot; un seul code pour '
     +       (v.count > 1 ? 'les ' + v.count + ' joueurs' : 'votre départ') + '</p></div>'
     + '</div>'
@@ -18731,7 +19521,7 @@ function screenGfBooking(){
   var v = gfViewById(STATE.account.openGf);
   if(!v) return screenNotFound();
   var h = hubOf(v);
-  var tab = STATE.account.gfTab || 'pay';
+  var tab = STATE.account.gfTab || 'game';
   var body = tab === 'players' ? gfbPlayers(v, h)
            : (tab === 'game' ? gfbGame(v, h) : gfbPay(v, h));
   return ''
@@ -18747,13 +19537,11 @@ function screenGfBooking(){
     +   '</div>'
     + '</div>'
     + '<div class="gfb-tabs"><div class="tabsx" role="tablist" aria-label="Gérer la réservation">'
-    +   (h.due
-         ? tabx('gfb-tab', 'pay', 'Paiement', amount(h.due), tab)
-           + tabx('gfb-tab', 'players', 'Joueurs', String(h.players.length), tab)
-           + tabx('gfb-tab', 'game', 'La partie', null, tab)
-         : tabx('gfb-tab', 'game', 'La partie', null, tab)
-           + tabx('gfb-tab', 'players', 'Joueurs', String(h.players.length), tab)
-           + tabx('gfb-tab', 'pay', 'Paiement', null, tab))
+    /* Lot 12 (29/10) : « La partie » devient « Départ » ; l'identifiant
+       interne reste 'game'. */
+    +   tabx('gfb-tab', 'game', 'Départ', null, tab)
+    +   tabx('gfb-tab', 'players', 'Joueurs', String(h.players.length), tab)
+    +   tabx('gfb-tab', 'pay', 'Paiement', h.due ? amount(h.due) : null, tab)
     + '</div></div>'
     + '<div data-role="gfb-' + tab + '">' + body + '</div>'
     + (STATE.account.sheet === 'gfb-opts' ? sheetGfExtras() : '');
@@ -19439,6 +20227,7 @@ function bindDevice(){
          celle qui est ouverte, jamais une autre. */
       if(STATE.account.sheet) closeAccountSheet();
       else if(STATE.lesson.sheet) closeLessonSheet();
+      else if(STATE.wallet.practice.sheet) closePracticeSheet();
       else closeSheet();
       return;
     }
@@ -19577,6 +20366,19 @@ function bindDevice(){
       else if(name === 'topup-method') setTopup('method', value);
       else if(name === 'topup-pay') payTopup();
       else if(name === 'topup-finish') finishTopup();
+      else if(name === 'gift-start') startGift();
+      else if(name === 'gift-open') openGiftCard(value);
+      else if(name === 'gift-book') startGiftBooking(value);
+      else if(name === 'gift-add-go'){
+        var gf = document.getElementById('gift-code');
+        addGiftCard(gf ? gf.value : undefined);
+      }
+      else if(name === 'gift-finish') finishGift();
+      else if(name === 'practice-start') startPractice();
+      else if(name === 'practice-pay-open'){ STATE.wallet.practice.sheet = 'pay'; refresh(); }
+      else if(name === 'practice-pay-pick') pickPracticePay(value);
+      else if(name === 'practice-book') bookPractice();
+      else if(name === 'practice-finish') finishPractice();
       else if(name === 'notif-open') openNotification(value);
       else if(name === 'pref') togglePref(value);
       else if(name === 'messenger') setMessenger(value);
@@ -19630,6 +20432,8 @@ function bindDevice(){
     if(e.target.getAttribute('data-tsite')){ setTariffSite(e.target.value); return; }
     /* 29/10 : montant personnalisé de la recharge. */
     if(e.target.getAttribute('data-topup')){ setTopupCustom(e.target.value, e.target); return; }
+    /* Lot 12 : code de carte cadeau, sans rendu à la frappe. */
+    if(e.target.getAttribute('data-gift')){ setGiftCode(e.target.value); return; }
     var field = e.target.getAttribute('data-field');
     if(field){ setGuestField(field, e.target.value); return; }
     /* Les champs du profil (lot 6) n'entraînent pas de rendu : redessiner à
